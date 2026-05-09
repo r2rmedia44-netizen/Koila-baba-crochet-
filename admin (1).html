@@ -1,0 +1,872 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Panel — Koila Baba Crochet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#1C0F0A;--rust:#8B3A2A;--rust-dk:#6A2A1C;--sand:#F2DFC8;--sand-dk:#E5CAAB;--parchment:#FBF5EE;--warm:#FFFDF9;--gold:#C49A55;--tm:#4A2C1E;--tl:#8A6650;--tx:#C2A08A;--ok:#2d7a4f;--err:#a02020;--sh:rgba(28,15,10,.1);--fd:'DM Serif Display',Georgia,serif;--fu:'DM Sans',sans-serif;--ease:cubic-bezier(.4,0,.2,1);--tr:all .3s var(--ease)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}body{font-family:var(--fu);background:#EDE4D8;color:var(--ink);min-height:100vh}
+/* LOGIN */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--parchment);padding:2rem;background-image:radial-gradient(circle at 1px 1px,rgba(196,154,85,.14) 1px,transparent 0);background-size:36px 36px}
+.lbox{background:#fff;border:1px solid rgba(196,154,85,.25);border-radius:10px;padding:3.5rem 2.75rem;width:100%;max-width:420px;box-shadow:0 24px 70px rgba(28,15,10,.12);text-align:center}
+.l-main{font-family:var(--fd);font-size:1.65rem;color:var(--rust)}
+.l-main em{font-style:italic;color:var(--gold)}
+.l-sub{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:block;margin:.25rem 0 2.5rem}
+.l-line{display:flex;align-items:center;gap:.8rem;margin-bottom:2.5rem}
+.l-line::before,.l-line::after{content:'';flex:1;height:1px;background:var(--sand-dk)}
+.l-line span{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tx)}
+.l-lbl{display:block;text-align:left;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tm);margin-bottom:.45rem}
+.l-inp{width:100%;padding:.88rem 1rem;border:1.5px solid var(--sand-dk);border-radius:4px;font-family:var(--fu);font-size:.95rem;color:var(--ink);background:var(--parchment);margin-bottom:1.5rem;transition:border-color .25s}
+.l-inp:focus{outline:none;border-color:var(--rust)}
+.l-btn{width:100%;padding:.92rem;background:var(--rust);color:var(--sand);border:none;border-radius:4px;font-family:var(--fu);font-size:.74rem;letter-spacing:.17em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background .25s}
+.l-btn:hover{background:var(--rust-dk)}
+.l-err{color:var(--err);font-size:.8rem;margin-top:.75rem;display:none;font-style:italic}
+/* APP */
+#app{display:none;min-height:100vh}
+.hdr{background:var(--rust);height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 18px rgba(0,0,0,.2)}
+.hdr-brand{display:flex;flex-direction:column}
+.hdr-main{font-family:var(--fd);font-size:1.15rem;color:var(--sand)}
+.hdr-main em{font-style:italic;color:var(--gold)}
+.hdr-sub{font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,223,200,.5)}
+.logout{background:rgba(242,223,200,.14);border:1px solid rgba(242,223,200,.28);color:var(--sand);padding:.42rem 1rem;border-radius:3px;font-family:var(--fu);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .25s}
+.logout:hover{background:rgba(242,223,200,.26)}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 62px)}
+/* SIDEBAR */
+.sidebar{background:#fff;border-right:1px solid #E8DDD3;padding:1.5rem 0}
+.sb-sec{padding:.45rem 1.5rem;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:.9rem}
+.sb-link{display:flex;align-items:center;gap:.65rem;padding:.68rem 1.5rem;font-size:.82rem;color:var(--tm);cursor:pointer;transition:all .2s;border-left:3px solid transparent;user-select:none}
+.sb-link:hover{background:var(--parchment);color:var(--rust)}
+.sb-link.act{background:rgba(139,58,42,.06);color:var(--rust);border-left-color:var(--rust);font-weight:500}
+/* MAIN */
+.main{padding:2rem;background:#EDE4D8;overflow-y:auto}
+.panel{display:none}.panel.act{display:block}
+.p-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem}
+.p-title{font-family:var(--fd);font-size:1.7rem;color:var(--rust)}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.9rem;margin-bottom:2rem}
+.stat{background:#fff;border-radius:6px;padding:1.2rem 1.5rem;border:1px solid #E8DDD3}
+.stat-lbl{font-size:.62rem;letter-spacing:.17em;text-transform:uppercase;color:var(--tl);margin-bottom:.4rem}
+.stat-val{font-family:var(--fd);font-size:1.85rem;color:var(--rust)}
+/* CARD */
+.card{background:#fff;border-radius:8px;border:1px solid #E8DDD3;padding:1.75rem;margin-bottom:1.5rem}
+.card-title{font-family:var(--fd);font-size:1.2rem;color:var(--rust);margin-bottom:1.4rem;padding-bottom:.7rem;border-bottom:1px solid #F0E8DF}
+/* FORM */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.fg{display:flex;flex-direction:column;gap:.38rem}
+.fg label{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tm)}
+.fc{padding:.7rem .9rem;border:1.5px solid #E8DDD3;border-radius:4px;font-family:var(--fu);font-size:.87rem;color:var(--ink);background:var(--parchment);transition:border-color .2s}
+.fc:focus{outline:none;border-color:var(--rust)}
+.fc-mb{margin-bottom:1rem}
+/* IMAGE UPLOAD */
+.img-upload-area{border:2px dashed var(--sand-dk);border-radius:6px;padding:1.5rem;text-align:center;cursor:pointer;transition:var(--tr);position:relative;background:var(--parchment)}
+.img-upload-area:hover,.img-upload-area.drag{border-color:var(--gold);background:rgba(196,154,85,.05)}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-upload-area .up-icon{font-size:2rem;margin-bottom:.5rem;display:block}
+.img-upload-area .up-text{font-size:.78rem;color:var(--tl)}
+.img-upload-area .up-sub{font-size:.68rem;color:var(--tx);margin-top:.25rem}
+.img-preview{width:100%;max-height:160px;object-fit:cover;border-radius:4px;margin-top:.75rem;display:none}
+.img-url-or{text-align:center;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tx);margin:.75rem 0}
+/* BTNS */
+.btn{font-family:var(--fu);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;font-weight:500;padding:.68rem 1.45rem;border-radius:4px;cursor:pointer;transition:all .2s;border:none;display:inline-flex;align-items:center;gap:.4rem}
+.btn-main{background:var(--rust);color:var(--sand)}.btn-main:hover{background:var(--rust-dk)}
+.btn-gold{background:var(--gold);color:#fff}.btn-gold:hover{background:#a0804a}
+.btn-del{background:#F5E5E5;color:var(--err);border:1px solid #E8C5C5}.btn-del:hover{background:var(--err);color:#fff}
+.btn-out{background:none;border:1.5px solid #E8DDD3;color:var(--tm)}.btn-out:hover{border-color:var(--tm)}
+.btn-sm{padding:.38rem .8rem;font-size:.66rem}
+.btn-green{background:#25D366;color:#fff}.btn-green:hover{background:#1ebe5a}
+.qa{display:flex;gap:.85rem;flex-wrap:wrap}
+/* TABLE */
+.tbl-card{background:#fff;border-radius:8px;border:1px solid #E8DDD3;overflow:hidden}
+.tbl-bar{padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #F0E8DF;flex-wrap:wrap;gap:.75rem}
+.tbl-lbl{font-size:.76rem;color:var(--tm);font-weight:500}
+.tbl-filters{display:flex;gap:.65rem;flex-wrap:wrap}
+.sbox{padding:.42rem .85rem;border:1.5px solid #E8DDD3;border-radius:4px;font-family:var(--fu);font-size:.8rem;color:var(--ink);background:var(--parchment)}
+.sbox:focus{outline:none;border-color:var(--gold)}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead th{background:var(--parchment);padding:.72rem 1rem;text-align:left;font-size:.62rem;letter-spacing:.17em;text-transform:uppercase;color:var(--tl);font-weight:500;border-bottom:1px solid #E8DDD3}
+tbody td{padding:.82rem 1rem;border-bottom:1px solid #F5EEE8;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#FDFAF7}
+.prod-img-cell{width:52px;height:52px;border-radius:4px;object-fit:cover;background:var(--parchment);display:flex;align-items:center;justify-content:center;font-size:1.5rem;overflow:hidden}
+.prod-img-cell img{width:100%;height:100%;object-fit:cover}
+.bdg{display:inline-block;padding:.2rem .58rem;border-radius:20px;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.b-flowers{background:#fce8e8;color:#a02020}
+.b-characters{background:#e8f0fc;color:#2040a0}
+.b-occasions{background:#fdf5e8;color:#956820}
+.b-bases{background:#e8fce8;color:#206020}
+.b-extras{background:#f5e8fc;color:#602080}
+.act-cell{display:flex;gap:.45rem}
+.empty-row{text-align:center;padding:2.5rem;color:var(--tl);font-style:italic;font-size:.9rem}
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(28,15,10,.52);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:8px;padding:2rem 2.25rem;width:100%;max-width:560px;box-shadow:0 32px 80px rgba(0,0,0,.25);max-height:92vh;overflow-y:auto}
+.modal-title{font-family:var(--fd);font-size:1.4rem;color:var(--rust);margin-bottom:1.4rem}
+.modal-foot{display:flex;justify-content:flex-end;gap:.65rem;margin-top:1.4rem;padding-top:1rem;border-top:1px solid #F0E8DF}
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;color:#fff;padding:.78rem 1.45rem;border-radius:4px;font-size:.8rem;z-index:9999;transform:translateY(20px);opacity:0;transition:all .3s ease;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{background:var(--ok)}
+.toast.err{background:var(--err)}
+/* PRODUCT PREVIEW GRID */
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:1rem}
+.preview-card{border:1px solid #E8DDD3;border-radius:6px;overflow:hidden;background:var(--parchment)}
+.preview-thumb{height:120px;background:var(--sand-dk);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;overflow:hidden}
+.preview-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.preview-info{padding:.65rem .8rem}
+.preview-info h5{font-family:var(--fd);font-size:.9rem;color:var(--ink);margin-bottom:.15rem}
+.preview-info .pp{font-family:var(--fu);font-size:.78rem;color:var(--rust);font-weight:500}
+/* RESPONSIVE */
+@media(max-width:768px){.layout{grid-template-columns:1fr}.sidebar{display:none}.frow{grid-template-columns:1fr}.main{padding:1rem}table{font-size:.76rem}.tbl-filters{flex-direction:column}}
+
+/* REMOVE PANEL */
+.remove-cat-tabs{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1.75rem}
+.rcat-btn{font-family:var(--fu);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;padding:.45rem 1.1rem;border:1.5px solid #E8DDD3;border-radius:3px;background:none;color:var(--tm);cursor:pointer;transition:all .2s}
+.rcat-btn:hover{border-color:var(--gold);color:var(--rust)}
+.rcat-btn.act{background:var(--rust);border-color:var(--rust);color:var(--sand)}
+.remove-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-top:1rem}
+.remove-card{background:#fff;border:1.5px solid #E8DDD3;border-radius:8px;overflow:hidden;transition:all .25s;position:relative}
+.remove-card:hover{border-color:#E8C5C5;box-shadow:0 6px 24px rgba(160,32,32,.1)}
+.remove-card.marked{border-color:var(--err);background:#fff8f8;box-shadow:0 0 0 3px rgba(160,32,32,.12)}
+.rc-thumb{height:130px;background:var(--parchment);display:flex;align-items:center;justify-content:center;font-size:2.8rem;overflow:hidden;position:relative}
+.rc-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rc-thumb-emoji{position:relative;z-index:0}
+.rc-body{padding:.8rem}
+.rc-name{font-family:var(--fd);font-size:.95rem;color:var(--ink);margin-bottom:.2rem;display:block}
+.rc-price{font-family:var(--fu);font-size:.8rem;color:var(--rust);font-weight:500;display:block;margin-bottom:.65rem}
+.rc-del-btn{width:100%;padding:.6rem;background:#fef2f2;color:var(--err);border:1.5px solid #fca5a5;border-radius:4px;font-family:var(--fu);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.rc-del-btn:hover{background:var(--err);color:#fff;border-color:var(--err)}
+.rc-check{position:absolute;top:.6rem;right:.6rem;width:22px;height:22px;border-radius:50%;border:2px solid #E8DDD3;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .22s;font-size:.7rem}
+.remove-card.marked .rc-check{background:var(--err);border-color:var(--err);color:#fff}
+.bulk-bar{background:#fff;border:1.5px solid #fca5a5;border-radius:6px;padding:.9rem 1.2rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.bulk-info{font-size:.82rem;color:var(--err);font-weight:500}
+.remove-empty{text-align:center;padding:3rem;color:var(--tl);font-style:italic;font-size:.9rem}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     LOGIN
+═══════════════════════════════════ -->
+<div id="login">
+  <div class="lbox">
+    <div class="l-main">Koila Baba <em>Crochet</em></div>
+    <span class="l-sub">Admin Dashboard</span>
+    <div class="l-line"><span>Sign In</span></div>
+    <label class="l-lbl" for="pw">Password</label>
+    <input type="password" id="pw" class="l-inp" placeholder="Enter your admin password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="l-btn" onclick="doLogin()">Access Dashboard</button>
+    <p class="l-err" id="l-err">⚠ Access Denied. Wrong password.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     APP
+═══════════════════════════════════ -->
+<div id="app">
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-brand">
+      <span class="hdr-main">Koila Baba <em>Crochet</em></span>
+      <span class="hdr-sub">Admin Panel</span>
+    </div>
+    <button class="logout" onclick="doLogout()">Logout</button>
+  </div>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sb-sec">Dashboard</div>
+      <div class="sb-link act" onclick="sw('overview',this)">📊 Overview</div>
+      <div class="sb-sec">Products</div>
+      <div class="sb-link" onclick="sw('add',this)">＋ Add Product</div>
+      <div class="sb-link" onclick="sw('manage',this)">🗂 Manage All</div>
+      <div class="sb-link" onclick="sw('remove',this)">🗑️ Remove Products</div>
+      <div class="sb-sec">Browse</div>
+      <div class="sb-link" onclick="sw('manage',this);setCat('flowers')">🌹 Flowers</div>
+      <div class="sb-link" onclick="sw('manage',this);setCat('characters')">🐰 Characters</div>
+      <div class="sb-link" onclick="sw('manage',this);setCat('occasions')">🎁 Occasions</div>
+      <div class="sb-link" onclick="sw('manage',this);setCat('bases')">🎀 Bases</div>
+      <div class="sb-link" onclick="sw('manage',this);setCat('extras')">✨ Extras</div>
+      <div class="sb-sec">Store</div>
+      <div class="sb-link" onclick="window.open('index.html','_blank')">🌐 View Store</div>
+    </div>
+
+    <!-- Main Area -->
+    <div class="main">
+
+      <!-- ── OVERVIEW ── -->
+      <div class="panel act" id="panel-overview">
+        <div class="p-head"><h2 class="p-title">Dashboard</h2></div>
+        <div class="stats-grid" id="stats-grid"></div>
+        <div class="card">
+          <div class="card-title">Quick Actions</div>
+          <div class="qa">
+            <button class="btn btn-main" onclick="sw('add',null)">＋ Add New Product</button>
+            <button class="btn btn-gold" onclick="sw('manage',null)">🗂 View All Products</button>
+            <button class="btn btn-green" onclick="window.open('index.html','_blank')">🌐 View Store</button>
+            <button class="btn btn-del" onclick="sw('remove',null)" style="background:#fef2f2;color:var(--err);border:1.5px solid #fca5a5">🗑️ Remove Products</button>
+            <button class="btn btn-del" onclick="doReset()">⚠ Reset All</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Recent Products</div>
+          <div id="recent-wrap"></div>
+        </div>
+      </div>
+
+      <!-- ── ADD PRODUCT ── -->
+      <div class="panel" id="panel-add">
+        <div class="p-head"><h2 class="p-title">Add New Product</h2></div>
+        <div class="card">
+          <div class="card-title">Product Details</div>
+          <div class="frow">
+            <div class="fg"><label>Product Name *</label><input type="text" id="a-name" class="fc" placeholder="e.g. Velvet Rose"/></div>
+            <div class="fg"><label>Price (₹) *</label><input type="number" id="a-price" class="fc" placeholder="e.g. 150" min="1"/></div>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label>Category *</label>
+              <select id="a-cat" class="fc" onchange="toggleBadge('a-badge-wrap',this.value==='occasions')">
+                <option value="flowers">🌹 Flowers</option>
+                <option value="characters">🐰 Characters</option>
+                <option value="occasions">🎁 Occasions</option>
+                <option value="bases">🎀 Bases / Wrappers</option>
+                <option value="extras">✨ Extras</option>
+              </select>
+            </div>
+            <div class="fg"><label>Emoji</label><input type="text" id="a-emoji" class="fc" placeholder="e.g. 🌹"/></div>
+          </div>
+          <div class="fg fc-mb"><label>Description</label><input type="text" id="a-desc" class="fc" placeholder="Short product description"/></div>
+          <div class="fg fc-mb" id="a-badge-wrap" style="display:none"><label>Occasion Badge (e.g. Valentine's Day)</label><input type="text" id="a-badge" class="fc" placeholder="e.g. Birthday"/></div>
+          <!-- FLOWER TAG -->
+          <div class="fg fc-mb" id="a-tag-wrap">
+            <label>Flower Tag (for filter)</label>
+            <select id="a-tag" class="fc"><option value="roses">Roses</option><option value="peonies">Peonies</option><option value="daisies">Daisies</option><option value="other">Other</option></select>
+          </div>
+
+          <!-- IMAGE UPLOAD -->
+          <div class="fg fc-mb">
+            <label>Product Image</label>
+            <div class="img-upload-area" id="a-drop-zone">
+              <input type="file" accept="image/*" onchange="handleImgUpload(this,'a-preview','a-img-data')"/>
+              <span class="up-icon">📷</span>
+              <div class="up-text">Click to upload or drag &amp; drop</div>
+              <div class="up-sub">JPG, PNG, WEBP · Max 5MB</div>
+              <img class="img-preview" id="a-preview" src="" alt="preview"/>
+            </div>
+            <div class="img-url-or">— or paste image URL —</div>
+            <input type="text" id="a-img-url" class="fc" placeholder="https://example.com/image.jpg" oninput="previewURL(this.value,'a-preview')"/>
+            <input type="hidden" id="a-img-data"/>
+          </div>
+
+          <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem">
+            <button class="btn btn-main" onclick="addProduct()">＋ Add Product</button>
+            <button class="btn btn-out" onclick="clearAddForm()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MANAGE ── -->
+      <div class="panel" id="panel-manage">
+        <div class="p-head"><h2 class="p-title">Manage Products</h2></div>
+        <div class="tbl-card">
+          <div class="tbl-bar">
+            <span class="tbl-lbl">All Products</span>
+            <div class="tbl-filters">
+              <input type="text" class="sbox" id="srch" placeholder="Search…" oninput="renderTable()" style="width:165px"/>
+              <select class="sbox" id="fcat" onchange="renderTable()" style="width:140px">
+                <option value="">All Categories</option>
+                <option value="flowers">Flowers</option>
+                <option value="characters">Characters</option>
+                <option value="occasions">Occasions</option>
+                <option value="bases">Bases</option>
+                <option value="extras">Extras</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Description</th><th>Actions</th></tr></thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REMOVE PRODUCTS ── -->
+      <div class="panel" id="panel-remove">
+        <div class="p-head">
+          <h2 class="p-title">🗑️ Remove Products</h2>
+        </div>
+
+        <!-- Danger info banner -->
+        <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:6px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:.75rem">
+          <span style="font-size:1.2rem;flex-shrink:0">⚠️</span>
+          <div>
+            <div style="font-weight:600;font-size:.82rem;color:var(--err);margin-bottom:.2rem">Permanent Action</div>
+            <div style="font-size:.8rem;color:#7f1d1d">Deleting a product cannot be undone. You can delete one at a time using the red button, or select multiple and delete them all at once.</div>
+          </div>
+        </div>
+
+        <!-- Bulk delete bar (shows when items selected) -->
+        <div class="bulk-bar" id="bulk-bar" style="display:none">
+          <span class="bulk-info" id="bulk-info">0 products selected</span>
+          <div style="display:flex;gap:.65rem;flex-wrap:wrap">
+            <button class="btn btn-out btn-sm" onclick="clearSelection()">Clear Selection</button>
+            <button class="btn btn-del" onclick="deleteSelected()" style="background:var(--err);color:#fff;border-color:var(--err)">🗑️ Delete Selected</button>
+          </div>
+        </div>
+
+        <!-- Category filter tabs -->
+        <div class="remove-cat-tabs" id="remove-cat-tabs">
+          <button class="rcat-btn act" onclick="setRemoveCat('all',this)">All Products</button>
+          <button class="rcat-btn" onclick="setRemoveCat('flowers',this)">🌹 Flowers</button>
+          <button class="rcat-btn" onclick="setRemoveCat('characters',this)">🐰 Characters</button>
+          <button class="rcat-btn" onclick="setRemoveCat('occasions',this)">🎁 Occasions</button>
+          <button class="rcat-btn" onclick="setRemoveCat('bases',this)">🎀 Bases</button>
+          <button class="rcat-btn" onclick="setRemoveCat('extras',this)">✨ Extras</button>
+        </div>
+
+        <!-- Search inside remove panel -->
+        <div style="margin-bottom:1.25rem">
+          <input type="text" class="sbox" id="remove-search" placeholder="Search products to remove…" oninput="renderRemoveGrid()" style="width:100%;max-width:360px"/>
+        </div>
+
+        <!-- Product cards -->
+        <div class="remove-grid" id="remove-grid"></div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /layout -->
+</div><!-- /app -->
+
+<!-- ── EDIT MODAL ── -->
+<div class="modal-bg" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title">Edit Product</div>
+    <input type="hidden" id="e-id"/>
+    <input type="hidden" id="e-oldcat"/>
+    <div class="frow">
+      <div class="fg"><label>Name *</label><input type="text" id="e-name" class="fc"/></div>
+      <div class="fg"><label>Price (₹) *</label><input type="number" id="e-price" class="fc" min="1"/></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Emoji</label><input type="text" id="e-emoji" class="fc"/></div>
+      <div class="fg">
+        <label>Category</label>
+        <select id="e-cat" class="fc" onchange="toggleBadge('e-badge-wrap',this.value==='occasions');toggleBadge('e-tag-wrap',this.value==='flowers')">
+          <option value="flowers">Flowers</option><option value="characters">Characters</option>
+          <option value="occasions">Occasions</option><option value="bases">Bases</option><option value="extras">Extras</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg fc-mb"><label>Description</label><input type="text" id="e-desc" class="fc"/></div>
+    <div class="fg fc-mb" id="e-badge-wrap" style="display:none"><label>Occasion Badge</label><input type="text" id="e-badge" class="fc"/></div>
+    <div class="fg fc-mb" id="e-tag-wrap" style="display:none">
+      <label>Flower Tag</label>
+      <select id="e-tag" class="fc"><option value="roses">Roses</option><option value="peonies">Peonies</option><option value="daisies">Daisies</option><option value="other">Other</option></select>
+    </div>
+    <!-- IMAGE in EDIT -->
+    <div class="fg fc-mb">
+      <label>Product Image</label>
+      <div class="img-upload-area">
+        <input type="file" accept="image/*" onchange="handleImgUpload(this,'e-preview','e-img-data')"/>
+        <span class="up-icon">📷</span>
+        <div class="up-text">Click to upload or drag &amp; drop</div>
+        <div class="up-sub">Replaces existing image</div>
+        <img class="img-preview" id="e-preview" src="" alt="preview"/>
+      </div>
+      <div class="img-url-or">— or paste image URL —</div>
+      <input type="text" id="e-img-url" class="fc" placeholder="https://..." oninput="previewURL(this.value,'e-preview')"/>
+      <input type="hidden" id="e-img-data"/>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-out" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-main" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════
+   CONFIG & DATA
+═══════════════════════════════════ */
+const PW = '234123';
+const STORE_KEY = 'kb_products';
+let selectedIds = [];
+let removeCat = 'all';
+
+const DEFAULTS = {
+  flowers:[
+    {id:'f1',name:'Crimson Rose',price:120,emoji:'🌹',desc:'Classic deep-red crochet rose in full bloom',tag:'roses',img:''},
+    {id:'f2',name:'Blush Peony',price:140,emoji:'🌸',desc:'Soft layered petals, romantic & lush',tag:'peonies',img:''},
+    {id:'f3',name:'Sunlit Daisy',price:90,emoji:'🌼',desc:'Cheerful daisy with a warm golden centre',tag:'daisies',img:''},
+    {id:'f4',name:'Lavender Bloom',price:110,emoji:'💜',desc:'Delicate purple petals, dreamy & soft',tag:'other',img:''},
+    {id:'f5',name:'Ivory Magnolia',price:160,emoji:'🤍',desc:'Elegant magnolia in cream-white beauty',tag:'other',img:''},
+    {id:'f6',name:'Wild Sunflower',price:100,emoji:'🌻',desc:'Bright and joyful, handcrafted with love',tag:'daisies',img:''},
+    {id:'f7',name:'Blue Hydrangea',price:130,emoji:'💙',desc:'Cluster blooms in soft periwinkle',tag:'other',img:''},
+    {id:'f8',name:'Dusty Tulip',price:115,emoji:'🌷',desc:'Vintage-toned tulip in muted rose',tag:'other',img:''},
+    {id:'f9',name:'Garden Rose',price:135,emoji:'🌹',desc:'Full-petalled garden rose in blush pink',tag:'roses',img:''},
+    {id:'f10',name:'Daisy Trio',price:95,emoji:'🌼',desc:'Three dainty daisies tied lovingly together',tag:'daisies',img:''},
+    {id:'f11',name:'Pink Peony',price:145,emoji:'🌸',desc:'Lush double-layered peony in soft pink',tag:'peonies',img:''},
+    {id:'f12',name:'Velvet Rose',price:155,emoji:'🌹',desc:'Deep burgundy rose with velvety texture',tag:'roses',img:''}
+  ],
+  characters:[
+    {id:'c1',name:'Bunny Bouquet',price:380,emoji:'🐰',desc:'Adorable bunny holding a spring flower arrangement',img:''},
+    {id:'c2',name:'Teddy Bear',price:420,emoji:'🧸',desc:'Huggable bear holding a mini bouquet with love',img:''},
+    {id:'c3',name:'Baby Unicorn',price:450,emoji:'🦄',desc:'Magical unicorn cradling rainbow florals',img:''},
+    {id:'c4',name:'Penguin Love',price:390,emoji:'🐧',desc:'Bow-tied penguin with a heart flower bouquet',img:''},
+    {id:'c5',name:'Frog Prince',price:360,emoji:'🐸',desc:'Charming frog prince nestled with lily pads',img:''},
+    {id:'c6',name:'Cloud Bear',price:410,emoji:'☁️',desc:'Dreamy bear floating on fluffy white clouds',img:''},
+    {id:'c7',name:'Fox with Daisies',price:395,emoji:'🦊',desc:'Sweet little fox holding a daisy chain',img:''},
+    {id:'c8',name:'Kitty Bloom',price:380,emoji:'🐱',desc:'Curious kitten peeking from a floral wreath',img:''}
+  ],
+  occasions:[
+    {id:'o1',name:"Valentine's Bundle",price:650,emoji:'❤️',badge:"Valentine's Day",desc:'Red roses, champagne wrapper, golden bow',img:''},
+    {id:'o2',name:'Birthday Bloom Box',price:580,emoji:'🎂',badge:'Birthday',desc:'Bright flowers with confetti ribbons and gift tag',img:''},
+    {id:'o3',name:'New Baby Arrival',price:620,emoji:'👶',badge:'Baby Shower',desc:'Pastel florals with a teddy bear charm',img:''},
+    {id:'o4',name:'Anniversary Luxury',price:880,emoji:'💍',badge:'Anniversary',desc:'Premium roses with satin wrap and gold ribbon',img:''},
+    {id:'o5',name:'Graduation Cheer',price:520,emoji:'🎓',badge:'Graduation',desc:'Bold florals celebrating a major achievement',img:''},
+    {id:'o6',name:'Eid Mubarak Bloom',price:700,emoji:'🌙',badge:'Eid Special',desc:'Elegant whites & golds for the festive season',img:''},
+    {id:'o7',name:"Mother's Day Bloom",price:760,emoji:'💝',badge:"Mother's Day",desc:'Soft pinks and creams for the most special person',img:''},
+    {id:'o8',name:'Just Because',price:420,emoji:'🌸',badge:'Everyday Gift',desc:'A spontaneous token of love and thoughtfulness',img:''}
+  ],
+  bases:[
+    {id:'b1',name:'Kraft Paper',price:50,emoji:'📜',desc:'Rustic & earthy'},
+    {id:'b2',name:'Satin Ribbon',price:80,emoji:'🎀',desc:'Silky & romantic'},
+    {id:'b3',name:'Jute Twine',price:60,emoji:'🪢',desc:'Natural & artisanal'},
+    {id:'b4',name:'Velvet Wrap',price:100,emoji:'🟥',desc:'Luxurious & plush'},
+    {id:'b5',name:'Gift Box',price:120,emoji:'📦',desc:'Elegant presentation'},
+    {id:'b6',name:'Lace Wrap',price:90,emoji:'🤍',desc:'Delicate & feminine'}
+  ],
+  extras:[
+    {id:'e1',name:'Gold Bow',price:40,emoji:'🎗️',desc:'Shimmery accent'},
+    {id:'e2',name:'Tissue Paper',price:25,emoji:'📄',desc:'Soft crinkle fill'},
+    {id:'e3',name:'Greeting Card',price:35,emoji:'💌',desc:'Handwritten message'},
+    {id:'e4',name:"Baby's Breath",price:55,emoji:'🤍',desc:'Delicate filler'},
+    {id:'e5',name:'Dried Leaves',price:45,emoji:'🍂',desc:'Earthy texture'},
+    {id:'e6',name:'Scent Sachet',price:60,emoji:'🌿',desc:'Floral fragrance'}
+  ]
+};
+
+function getData(){try{const s=localStorage.getItem(STORE_KEY);if(s)return JSON.parse(s);}catch{}return JSON.parse(JSON.stringify(DEFAULTS));}
+function saveData(d){localStorage.setItem(STORE_KEY,JSON.stringify(d));}
+function allItems(d){return[...d.flowers,...d.characters,...d.occasions,...d.bases,...d.extras];}
+
+/* ═══════════════════════════════════
+   AUTH
+═══════════════════════════════════ */
+function doLogin(){
+  if(document.getElementById('pw').value===PW){
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    initAdmin();
+  } else {
+    const e=document.getElementById('l-err');e.style.display='block';
+    document.getElementById('pw').style.borderColor='#a02020';
+    setTimeout(()=>{e.style.display='none';document.getElementById('pw').style.borderColor='';},3500);
+  }
+}
+function doLogout(){
+  document.getElementById('pw').value='';
+  document.getElementById('app').style.display='none';
+  document.getElementById('login').style.display='flex';
+}
+function initAdmin(){renderStats();renderRecent();renderTable();}
+
+/* ═══════════════════════════════════
+   PANELS
+═══════════════════════════════════ */
+function sw(id,linkEl){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('act'));
+  document.getElementById('panel-'+id).classList.add('act');
+  if(linkEl){document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('act'));linkEl.classList.add('act');}
+  if(id==='manage')renderTable();
+  if(id==='overview'){renderStats();renderRecent();}
+  if(id==='remove'){selectedIds=[];updateBulkBar();renderRemoveGrid();}
+}
+
+/* ═══════════════════════════════════
+   STATS
+═══════════════════════════════════ */
+function renderStats(){
+  const d=getData();
+  const rows=[
+    {l:'Total Products',v:allItems(d).length},
+    {l:'Flowers',v:d.flowers.length},
+    {l:'Characters',v:d.characters.length},
+    {l:'Occasions',v:d.occasions.length},
+    {l:'Bases',v:d.bases.length},
+    {l:'Extras',v:d.extras.length}
+  ];
+  document.getElementById('stats-grid').innerHTML=rows.map(r=>`<div class="stat"><div class="stat-lbl">${r.l}</div><div class="stat-val">${r.v}</div></div>`).join('');
+}
+
+/* ═══════════════════════════════════
+   RECENT PRODUCTS
+═══════════════════════════════════ */
+function renderRecent(){
+  const d=getData();
+  const items=allItems(d).slice(-8).reverse();
+  if(!items.length){document.getElementById('recent-wrap').innerHTML='<p style="text-align:center;padding:2rem;color:var(--tl);font-style:italic">No products yet.</p>';return;}
+  document.getElementById('recent-wrap').innerHTML=`<div class="preview-grid">${items.map(i=>{
+    const hasImg=i.img&&i.img.trim()!=='';
+    return`<div class="preview-card"><div class="preview-thumb">${hasImg?`<img src="${i.img}" alt="${i.name}">`:'<span>'+i.emoji+'</span>'}</div><div class="preview-info"><h5>${i.name}</h5><span class="pp">₹${i.price}</span></div></div>`;
+  }).join('')}</div>`;
+}
+
+/* ═══════════════════════════════════
+   CATEGORY BADGE
+═══════════════════════════════════ */
+function catBadge(cat){
+  const m={flowers:'🌹 Flowers',characters:'🐰 Characters',occasions:'🎁 Occasions',bases:'🎀 Bases',extras:'✨ Extras'};
+  return`<span class="bdg b-${cat}">${m[cat]||cat}</span>`;
+}
+
+/* ═══════════════════════════════════
+   TABLE
+═══════════════════════════════════ */
+function setCat(cat){document.getElementById('fcat').value=cat;renderTable();}
+function renderTable(){
+  const srch=(document.getElementById('srch')||{}).value||'';
+  const cat=(document.getElementById('fcat')||{}).value||'';
+  const d=getData();
+  let items=allItems(d);
+  if(cat)items=items.filter(i=>i.category===cat);
+  if(srch.trim())items=items.filter(i=>i.name.toLowerCase().includes(srch.toLowerCase())||(i.desc||'').toLowerCase().includes(srch.toLowerCase()));
+  const tbody=document.getElementById('tbody');if(!tbody)return;
+  if(!items.length){tbody.innerHTML='<tr><td colspan="6" class="empty-row">No products found.</td></tr>';return;}
+  tbody.innerHTML=items.map(item=>{
+    const hasImg=item.img&&item.img.trim()!=='';
+    const thumb=hasImg?`<div class="prod-img-cell"><img src="${item.img}" alt="${item.name}"></div>`:`<div class="prod-img-cell">${item.emoji||'🌸'}</div>`;
+    return`<tr>
+      <td>${thumb}</td>
+      <td><strong>${item.name}</strong></td>
+      <td>${catBadge(item.category)}</td>
+      <td style="color:var(--rust);font-weight:500">₹${item.price}</td>
+      <td style="color:var(--tl);font-style:italic;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${item.desc||'—'}</td>
+      <td><div class="act-cell">
+        <button class="btn btn-sm btn-gold" onclick="openEdit('${item.id}','${item.category}')">Edit</button>
+        <button class="btn btn-sm btn-del" onclick="delItem('${item.id}','${item.category}')">Delete</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+/* ═══════════════════════════════════
+   IMAGE HANDLING
+═══════════════════════════════════ */
+function handleImgUpload(input, previewId, dataId){
+  const file=input.files[0];
+  if(!file)return;
+  if(file.size>5*1024*1024){aToast('Image too large (max 5MB)',true);return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const data=e.target.result;
+    document.getElementById(dataId).value=data;
+    const prev=document.getElementById(previewId);
+    prev.src=data;prev.style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewURL(url, previewId){
+  const prev=document.getElementById(previewId);
+  if(url&&url.trim()){prev.src=url;prev.style.display='block';}
+  else{prev.style.display='none';}
+}
+
+function getImgValue(dataId, urlId){
+  const data=document.getElementById(dataId).value;
+  const url=document.getElementById(urlId).value.trim();
+  return data||url||'';
+}
+
+/* ═══════════════════════════════════
+   TOGGLE HELPERS
+═══════════════════════════════════ */
+function toggleBadge(wrapId,show){
+  const el=document.getElementById(wrapId);if(el)el.style.display=show?'block':'none';
+}
+
+/* ═══════════════════════════════════
+   ADD PRODUCT
+═══════════════════════════════════ */
+function addProduct(){
+  const name=document.getElementById('a-name').value.trim();
+  const price=parseInt(document.getElementById('a-price').value);
+  const cat=document.getElementById('a-cat').value;
+  const emoji=document.getElementById('a-emoji').value.trim()||'🌸';
+  const desc=document.getElementById('a-desc').value.trim();
+  const badge=document.getElementById('a-badge').value.trim();
+  const tag=document.getElementById('a-tag').value;
+  const img=getImgValue('a-img-data','a-img-url');
+
+  if(!name){aToast('Please enter a product name.',true);return;}
+  if(!price||isNaN(price)||price<1){aToast('Please enter a valid price.',true);return;}
+
+  const d=getData();
+  const id=cat[0]+Date.now();
+  const item={id,name,price,emoji,desc,category:cat,img};
+  if(cat==='occasions'&&badge)item.badge=badge;
+  if(cat==='flowers')item.tag=tag;
+  if(!d[cat])d[cat]=[];
+  d[cat].push(item);
+  saveData(d);
+  aToast(`✓ "${name}" added to ${cat}!`);
+  clearAddForm();
+  renderStats();
+  renderRecent();
+}
+
+function clearAddForm(){
+  ['a-name','a-price','a-emoji','a-desc','a-badge','a-img-url','a-img-data'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  document.getElementById('a-cat').value='flowers';
+  document.getElementById('a-badge-wrap').style.display='none';
+  document.getElementById('a-tag-wrap').style.display='block';
+  const prev=document.getElementById('a-preview');
+  prev.src='';prev.style.display='none';
+}
+
+/* ═══════════════════════════════════
+   EDIT
+═══════════════════════════════════ */
+function openEdit(id,cat){
+  const d=getData();
+  const item=(d[cat]||[]).find(i=>i.id===id);
+  if(!item)return;
+  document.getElementById('e-id').value=id;
+  document.getElementById('e-oldcat').value=cat;
+  document.getElementById('e-name').value=item.name;
+  document.getElementById('e-price').value=item.price;
+  document.getElementById('e-emoji').value=item.emoji||'';
+  document.getElementById('e-desc').value=item.desc||'';
+  document.getElementById('e-cat').value=cat;
+  document.getElementById('e-img-url').value=(!item.img||item.img.startsWith('data:'))?'':item.img;
+  document.getElementById('e-img-data').value=item.img&&item.img.startsWith('data:')?item.img:'';
+  const prev=document.getElementById('e-preview');
+  if(item.img){prev.src=item.img;prev.style.display='block';}
+  else{prev.src='';prev.style.display='none';}
+  // badge
+  const bw=document.getElementById('e-badge-wrap');
+  bw.style.display=cat==='occasions'?'block':'none';
+  document.getElementById('e-badge').value=cat==='occasions'?(item.badge||''):'';
+  // tag
+  const tw=document.getElementById('e-tag-wrap');
+  tw.style.display=cat==='flowers'?'block':'none';
+  document.getElementById('e-tag').value=item.tag||'other';
+
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('edit-modal').classList.remove('open');
+  document.getElementById('e-img-data').value='';
+  document.getElementById('e-img-url').value='';
+  const prev=document.getElementById('e-preview');prev.src='';prev.style.display='none';
+}
+
+function saveEdit(){
+  const id=document.getElementById('e-id').value;
+  const oldCat=document.getElementById('e-oldcat').value;
+  const newCat=document.getElementById('e-cat').value;
+  const name=document.getElementById('e-name').value.trim();
+  const price=parseInt(document.getElementById('e-price').value);
+  if(!name){aToast('Name is required.',true);return;}
+  if(!price||isNaN(price)){aToast('Valid price required.',true);return;}
+
+  const img=getImgValue('e-img-data','e-img-url');
+  const d=getData();
+  const oldItem=(d[oldCat]||[]).find(i=>i.id===id)||{};
+  d[oldCat]=(d[oldCat]||[]).filter(i=>i.id!==id);
+
+  const updated={
+    id,name,price,
+    emoji:document.getElementById('e-emoji').value.trim()||oldItem.emoji||'🌸',
+    desc:document.getElementById('e-desc').value.trim(),
+    category:newCat,
+    img:img||oldItem.img||''
+  };
+  if(newCat==='occasions')updated.badge=document.getElementById('e-badge').value.trim();
+  if(newCat==='flowers')updated.tag=document.getElementById('e-tag').value;
+
+  if(!d[newCat])d[newCat]=[];
+  d[newCat].push(updated);
+  saveData(d);
+  closeModal();
+  renderTable();
+  renderStats();
+  renderRecent();
+  aToast(`✓ "${name}" updated!`);
+}
+
+/* ═══════════════════════════════════
+   DELETE
+═══════════════════════════════════ */
+function delItem(id,cat){
+  if(!confirm('Delete this product? This cannot be undone.'))return;
+  const d=getData();
+  const item=(d[cat]||[]).find(i=>i.id===id);
+  d[cat]=(d[cat]||[]).filter(i=>i.id!==id);
+  saveData(d);
+  renderTable();renderStats();renderRecent();
+  aToast(`Deleted "${item?item.name:'product'}".`);
+}
+
+/* ═══════════════════════════════════
+   RESET
+═══════════════════════════════════ */
+function doReset(){
+  if(!confirm('Reset ALL products to defaults? All custom products & uploaded images will be lost.'))return;
+  localStorage.removeItem(STORE_KEY);
+  renderTable();renderStats();renderRecent();
+  aToast('Products reset to defaults.');
+}
+
+/* ═══════════════════════════════════
+   REMOVE PANEL
+═══════════════════════════════════ */
+
+function setRemoveCat(cat, btn){
+  removeCat = cat;
+  document.querySelectorAll('.rcat-btn').forEach(b => b.classList.remove('act'));
+  btn.classList.add('act');
+  selectedIds = [];
+  updateBulkBar();
+  renderRemoveGrid();
+}
+
+function renderRemoveGrid(){
+  const d = getData();
+  const srch = (document.getElementById('remove-search')||{}).value||'';
+  let items = [];
+
+  const cats = removeCat === 'all'
+    ? ['flowers','characters','occasions','bases','extras']
+    : [removeCat];
+
+  cats.forEach(cat => {
+    (d[cat]||[]).forEach(item => {
+      items.push({...item, category: cat});
+    });
+  });
+
+  if(srch.trim()){
+    items = items.filter(i =>
+      i.name.toLowerCase().includes(srch.toLowerCase()) ||
+      (i.desc||'').toLowerCase().includes(srch.toLowerCase())
+    );
+  }
+
+  const g = document.getElementById('remove-grid');
+  if(!items.length){
+    g.innerHTML = '<p class="remove-empty" style="grid-column:1/-1">No products found in this category.</p>';
+    return;
+  }
+
+  g.innerHTML = items.map(item => {
+    const hasImg = item.img && item.img.trim() !== '';
+    const isMarked = selectedIds.some(s => s.id === item.id && s.category === item.category);
+    return `<div class="remove-card${isMarked?' marked':''}" id="rc-${item.id}">
+      <div class="rc-check" onclick="toggleSelect('${item.id}','${item.category}')">${isMarked ? '✓' : ''}</div>
+      <div class="rc-thumb">
+        ${hasImg ? `<img src="${item.img}" alt="${item.name}">` : ''}
+        <span class="rc-thumb-emoji" ${hasImg?'style="display:none"':''}>${item.emoji||'🌸'}</span>
+      </div>
+      <div class="rc-body">
+        <span class="rc-name">${item.name}</span>
+        <span class="rc-price">₹${item.price} · <span style="font-size:.7rem;color:var(--tl);font-weight:400">${catLabel(item.category)}</span></span>
+        <button class="rc-del-btn" onclick="deleteOne('${item.id}','${item.category}','${item.name.replace(/'/g,"\\'")}')">
+          🗑️ Remove
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function catLabel(cat){
+  const m={flowers:'Flower',characters:'Character',occasions:'Occasion',bases:'Base',extras:'Extra'};
+  return m[cat]||cat;
+}
+
+function toggleSelect(id, category){
+  const idx = selectedIds.findIndex(s => s.id===id && s.category===category);
+  if(idx >= 0){
+    selectedIds.splice(idx, 1);
+  } else {
+    selectedIds.push({id, category});
+  }
+  updateBulkBar();
+  renderRemoveGrid();
+}
+
+function updateBulkBar(){
+  const bar = document.getElementById('bulk-bar');
+  const info = document.getElementById('bulk-info');
+  if(selectedIds.length > 0){
+    bar.style.display = 'flex';
+    info.textContent = `${selectedIds.length} product${selectedIds.length > 1 ? 's' : ''} selected`;
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function clearSelection(){
+  selectedIds = [];
+  updateBulkBar();
+  renderRemoveGrid();
+}
+
+function deleteOne(id, category, name){
+  if(!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  const d = getData();
+  d[category] = (d[category]||[]).filter(i => i.id !== id);
+  saveData(d);
+  selectedIds = selectedIds.filter(s => !(s.id === id && s.category === category));
+  updateBulkBar();
+  renderRemoveGrid();
+  renderStats();
+  renderRecent();
+  aToast(`Deleted "${name}".`);
+}
+
+function deleteSelected(){
+  if(!selectedIds.length){aToast('No products selected.',true);return;}
+  const count = selectedIds.length;
+  if(!confirm(`Delete ${count} selected product${count>1?'s':''}? This cannot be undone.`)) return;
+  const d = getData();
+  selectedIds.forEach(({id, category}) => {
+    d[category] = (d[category]||[]).filter(i => i.id !== id);
+  });
+  saveData(d);
+  selectedIds = [];
+  updateBulkBar();
+  renderRemoveGrid();
+  renderStats();
+  renderRecent();
+  aToast(`✓ Deleted ${count} product${count>1?'s':''} successfully.`);
+}
+
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+let _at;
+function aToast(msg,isErr=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show '+(isErr?'err':'ok');
+  clearTimeout(_at);
+  _at=setTimeout(()=>t.classList.remove('show'),3200);
+}
+</script>
+</body>
+</html>

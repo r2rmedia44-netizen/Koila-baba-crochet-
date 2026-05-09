@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Flowers — Koila Baba Crochet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#1C0F0A;--rust:#8B3A2A;--rust-dk:#6A2A1C;--sand:#F2DFC8;--sand-dk:#E5CAAB;--parchment:#FBF5EE;--warm:#FFFDF9;--gold:#C49A55;--tm:#4A2C1E;--tl:#8A6650;--tx:#C2A08A;--sh:rgba(28,15,10,.1);--sh2:rgba(28,15,10,.2);--fd:'DM Serif Display',Georgia,serif;--fb:'Libre Baskerville',Georgia,serif;--fu:'DM Sans',sans-serif;--ease:cubic-bezier(.4,0,.2,1);--tr:all .35s var(--ease)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:var(--fb);background:var(--warm);color:var(--ink);line-height:1.75;overflow-x:hidden}img{max-width:100%;height:auto;display:block}a{text-decoration:none;color:inherit}ul{list-style:none}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--sand)}::-webkit-scrollbar-thumb{background:var(--rust);border-radius:3px}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:400;line-height:1.15}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(251,245,238,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(196,154,85,.2);transition:var(--tr)}.nav.scrolled{box-shadow:0 3px 28px var(--sh)}
+.nav-logo{display:flex;flex-direction:column;line-height:1}.nav-logo-main{font-family:var(--fd);font-size:1.2rem;color:var(--rust)}.nav-logo-main em{font-style:italic;color:var(--gold)}.nav-logo-sub{font-family:var(--fu);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:1.75rem}.nav-links a{font-family:var(--fu);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tm);transition:var(--tr);position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:1px;background:var(--rust);transition:var(--tr)}
+.nav-links a:hover,.nav-links a.act{color:var(--rust)}.nav-links a:hover::after,.nav-links a.act::after{left:0;right:0}
+.nav-cta{background:var(--rust)!important;color:var(--sand)!important;padding:.42rem 1.1rem!important;border-radius:2px!important}.nav-cta::after{display:none!important}.nav-cta:hover{background:var(--rust-dk)!important}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}.ham span{display:block;width:22px;height:1.5px;background:var(--rust);transition:var(--tr)}
+.mob-nav{display:none;position:fixed;top:68px;left:0;right:0;background:var(--parchment);border-bottom:1px solid var(--sand-dk);padding:1.5rem 2rem;z-index:999;flex-direction:column;gap:1rem;box-shadow:0 10px 30px var(--sh)}.mob-nav.open{display:flex}
+.mob-nav a{font-family:var(--fu);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tm);padding:.5rem 0;border-bottom:1px solid var(--sand-dk)}
+.btn-fill{font-family:var(--fu);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;padding:.9rem 2.2rem;background:var(--rust);color:var(--sand);border:1.5px solid var(--rust);border-radius:2px;cursor:pointer;transition:var(--tr);display:inline-block}
+.btn-fill:hover{background:var(--rust-dk);transform:translateY(-2px);box-shadow:0 10px 28px rgba(139,58,42,.28)}
+.pg-banner{background:var(--rust);padding:7.5rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.pg-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.06) 1px,transparent 0);background-size:24px 24px}
+.pg-banner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:var(--warm);clip-path:ellipse(55% 100% at 50% 100%)}
+.pg-banner h1{font-size:clamp(2.2rem,6vw,4rem);color:var(--sand);position:relative;z-index:1}
+.pg-banner p{color:rgba(242,223,200,.72);font-style:italic;margin-top:.65rem;font-size:1rem;position:relative;z-index:1}
+.sec{padding:5rem 2rem}
+.filter-tabs{display:flex;gap:.45rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
+.ftab{font-family:var(--fu);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;padding:.45rem 1.1rem;border:1px solid var(--sand-dk);border-radius:2px;background:none;color:var(--tm);cursor:pointer;transition:var(--tr)}
+.ftab:hover,.ftab.act{background:var(--rust);border-color:var(--rust);color:var(--sand)}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.6rem;max-width:1200px;margin:0 auto}
+.prod-card{background:var(--warm);border:1px solid rgba(196,154,85,.18);border-radius:4px;overflow:hidden;transition:var(--tr)}
+.prod-card:hover{transform:translateY(-4px);box-shadow:0 16px 42px var(--sh);border-color:rgba(196,154,85,.5)}
+.prod-thumb{height:200px;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:3.2rem;overflow:hidden;position:relative}
+.prod-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.prod-card:hover .prod-thumb img{transform:scale(1.06)}
+.prod-emoji{position:relative;z-index:0}
+.prod-body{padding:1rem 1.15rem 1.25rem}
+.prod-body h4{font-family:var(--fd);font-size:1.05rem;color:var(--ink);margin-bottom:.22rem}
+.prod-desc{font-size:.79rem;color:var(--tl);font-style:italic;margin-bottom:.5rem;line-height:1.45}
+.prod-price{font-family:var(--fu);font-size:.9rem;color:var(--rust);font-weight:500}
+.wa-enquire{display:inline-block;margin-top:.6rem;font-family:var(--fu);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);transition:var(--tr)}
+.wa-enquire:hover{color:var(--rust)}
+.cta-box{text-align:center;margin:3.5rem auto 0;padding:2rem 1.5rem;background:var(--parchment);border:1px solid rgba(196,154,85,.25);border-radius:4px;max-width:500px}
+.cta-box p{font-style:italic;color:var(--tl);margin-bottom:1.2rem;font-size:.97rem}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--rust);color:var(--sand);padding:.82rem 1.5rem;border-radius:3px;font-family:var(--fu);font-size:.73rem;z-index:9999;transform:translateY(18px);opacity:0;transition:var(--tr);pointer-events:none;box-shadow:0 10px 28px rgba(139,58,42,.32)}
+.toast.show{transform:translateY(0);opacity:1}
+.fi{opacity:0;transform:translateY(24px);transition:opacity .75s var(--ease),transform .75s var(--ease)}.fi.vis{opacity:1;transform:translateY(0)}
+.footer{background:var(--ink);color:var(--sand);padding:4rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;padding-bottom:2.5rem;border-bottom:1px solid rgba(242,223,200,.1)}
+.f-brand h3{font-family:var(--fd);font-size:1.4rem;color:var(--sand);margin-bottom:.25rem}
+.f-brand h3 em{font-style:italic;color:var(--gold)}
+.f-sub{font-family:var(--fu);font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:block}
+.f-brand p{font-size:.86rem;color:rgba(242,223,200,.55);font-style:italic;max-width:270px;line-height:1.7}
+.f-col h4{font-family:var(--fu);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.f-col ul{display:flex;flex-direction:column;gap:.6rem}
+.f-col ul li a{font-size:.88rem;color:rgba(242,223,200,.55);transition:var(--tr)}
+.f-col ul li a:hover{color:var(--gold)}
+.f-bottom{text-align:center;padding-top:1.75rem;font-family:var(--fu);font-size:.68rem;letter-spacing:.1em;color:rgba(242,223,200,.28);max-width:1100px;margin:0 auto}
+@keyframes riseIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1024px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.nav-links{display:none}.ham{display:flex}.prod-grid{grid-template-columns:repeat(2,1fr);gap:.9rem}.footer-grid{grid-template-columns:1fr;gap:1.8rem}.nav{padding:0 1.25rem}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html"><span class="nav-logo-main">Koila Baba <em>Crochet</em></span><span class="nav-logo-sub">Handmade Bouquets</span></a>
+  <ul class="nav-links">
+    <li><a href="flowers.html" class="act">Flowers</a></li>
+    <li><a href="builder.html">Build Bouquet</a></li>
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="occasions.html">Occasions</a></li>
+    <li><a href="builder.html" class="nav-cta">Order Now →</a></li>
+  </ul>
+  <div class="ham" onclick="document.getElementById('mob-nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-nav" id="mob-nav">
+  <a href="flowers.html">Flowers</a><a href="builder.html">Custom Bouquet Builder</a><a href="characters.html">Characters</a><a href="occasions.html">Occasions</a>
+</div>
+
+<div class="pg-banner"><h1>Our Flowers</h1><p>Each bloom handcrafted with premium crochet yarn</p></div>
+
+<section class="sec">
+  <div class="filter-tabs">
+    <button class="ftab act" onclick="filterFlowers('all',this)">All Blooms</button>
+    <button class="ftab" onclick="filterFlowers('roses',this)">Roses</button>
+    <button class="ftab" onclick="filterFlowers('peonies',this)">Peonies</button>
+    <button class="ftab" onclick="filterFlowers('daisies',this)">Daisies</button>
+    <button class="ftab" onclick="filterFlowers('other',this)">Other Blooms</button>
+  </div>
+  <div class="prod-grid" id="flowers-grid"></div>
+  <div class="cta-box">
+    <p>Can't find what you're looking for? We take custom orders!</p>
+    <a href="https://wa.me/918638733586?text=Hi%20Koila%20Baba%20Crochet!%20I'd%20like%20a%20custom%20crochet%20flower." target="_blank" class="btn-fill">Ask on WhatsApp</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="f-brand"><h3>Koila Baba <em>Crochet</em></h3><span class="f-sub">Handmade Bouquets</span><p>Every bouquet handcrafted with premium yarn and packed with love.</p></div>
+    <div class="f-col"><h4>Shop</h4><ul><li><a href="flowers.html">Flowers</a></li><li><a href="builder.html">Custom Builder</a></li><li><a href="characters.html">Characters</a></li><li><a href="occasions.html">Occasions</a></li></ul></div>
+    <div class="f-col"><h4>Contact</h4><ul><li><a href="https://wa.me/918638733586" target="_blank">WhatsApp Us</a></li><li><a href="#">Instagram</a></li></ul></div>
+  </div>
+  <div class="f-bottom"><p>© 2024 Koila Baba Crochet · Handcrafted with love 🌹</p></div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE_KEY='kb_products';
+const DEF_FLOWERS=[
+  {id:'f1',name:'Crimson Rose',price:120,emoji:'🌹',desc:'Classic deep-red crochet rose in full bloom',tag:'roses',img:''},
+  {id:'f2',name:'Blush Peony',price:140,emoji:'🌸',desc:'Soft layered petals, romantic & lush',tag:'peonies',img:''},
+  {id:'f3',name:'Sunlit Daisy',price:90,emoji:'🌼',desc:'Cheerful daisy with a warm golden centre',tag:'daisies',img:''},
+  {id:'f4',name:'Lavender Bloom',price:110,emoji:'💜',desc:'Delicate purple petals, dreamy & soft',tag:'other',img:''},
+  {id:'f5',name:'Ivory Magnolia',price:160,emoji:'🤍',desc:'Elegant magnolia in cream-white beauty',tag:'other',img:''},
+  {id:'f6',name:'Wild Sunflower',price:100,emoji:'🌻',desc:'Bright and joyful, handcrafted with love',tag:'daisies',img:''},
+  {id:'f7',name:'Blue Hydrangea',price:130,emoji:'💙',desc:'Cluster blooms in soft periwinkle',tag:'other',img:''},
+  {id:'f8',name:'Dusty Tulip',price:115,emoji:'🌷',desc:'Vintage-toned tulip in muted rose',tag:'other',img:''},
+  {id:'f9',name:'Garden Rose',price:135,emoji:'🌹',desc:'Full-petalled garden rose in blush pink',tag:'roses',img:''},
+  {id:'f10',name:'Daisy Trio',price:95,emoji:'🌼',desc:'Three dainty daisies tied lovingly together',tag:'daisies',img:''},
+  {id:'f11',name:'Pink Peony',price:145,emoji:'🌸',desc:'Lush double-layered peony in soft pink',tag:'peonies',img:''},
+  {id:'f12',name:'Velvet Rose',price:155,emoji:'🌹',desc:'Deep burgundy rose with velvety texture',tag:'roses',img:''}
+];
+function getData(){try{const s=localStorage.getItem(STORE_KEY);if(s){const p=JSON.parse(s);return p.flowers||DEF_FLOWERS;}}catch{}return DEF_FLOWERS;}
+let _tt;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2800);}
+function enquireWA(name,price){const msg='Hi Koila Baba Crochet! I\'d like to enquire about '+name+' (₹'+price+'). Is it available?';window.open('https://wa.me/918638733586?text='+encodeURIComponent(msg),'_blank');}
+function renderFlowers(tag){
+  const flowers=getData();
+  const items=tag==='all'?flowers:flowers.filter(f=>f.tag===tag);
+  const g=document.getElementById('flowers-grid');
+  g.innerHTML=items.map(f=>{
+    const hasImg=f.img&&f.img.trim()!=='';
+    return`<div class="prod-card fi">
+      <div class="prod-thumb">
+        ${hasImg?`<img src="${f.img}" alt="${f.name}" loading="lazy">`:''}
+        <span class="prod-emoji" ${hasImg?'style="display:none"':''}>${f.emoji}</span>
+      </div>
+      <div class="prod-body">
+        <h4>${f.name}</h4>
+        <p class="prod-desc">${f.desc}</p>
+        <span class="prod-price">₹${f.price}</span><br>
+        <span class="wa-enquire" onclick="enquireWA('${f.name}','${f.price}')">Enquire on WhatsApp →</span>
+      </div>
+    </div>`;
+  }).join('');
+  initFI();
+}
+function filterFlowers(tag,btn){
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');renderFlowers(tag);
+}
+function initFI(){const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');o.unobserve(x.target);}});},{threshold:.08});document.querySelectorAll('.fi:not(.vis)').forEach((el,i)=>{el.style.transitionDelay=i*.06+'s';o.observe(el);});}
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>20));
+document.addEventListener('DOMContentLoaded',()=>{renderFlowers('all');});
+</script>
+</body>
+</html>

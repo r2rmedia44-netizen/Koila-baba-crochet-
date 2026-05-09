@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Build Your Bouquet — Koila Baba Crochet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#1C0F0A;--rust:#8B3A2A;--rust-dk:#6A2A1C;--sand:#F2DFC8;--sand-dk:#E5CAAB;--parchment:#FBF5EE;--warm:#FFFDF9;--gold:#C49A55;--tm:#4A2C1E;--tl:#8A6650;--tx:#C2A08A;--sh:rgba(28,15,10,.1);--fd:'DM Serif Display',Georgia,serif;--fb:'Libre Baskerville',Georgia,serif;--fu:'DM Sans',sans-serif;--ease:cubic-bezier(.4,0,.2,1);--tr:all .35s var(--ease)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:var(--fb);background:var(--warm);color:var(--ink);line-height:1.75;overflow-x:hidden}img{max-width:100%;height:auto;display:block}a{text-decoration:none;color:inherit}ul{list-style:none}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--sand)}::-webkit-scrollbar-thumb{background:var(--rust);border-radius:3px}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:400;line-height:1.15}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(251,245,238,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(196,154,85,.2);transition:var(--tr)}.nav.scrolled{box-shadow:0 3px 28px var(--sh)}
+.nav-logo{display:flex;flex-direction:column;line-height:1}.nav-logo-main{font-family:var(--fd);font-size:1.2rem;color:var(--rust)}.nav-logo-main em{font-style:italic;color:var(--gold)}.nav-logo-sub{font-family:var(--fu);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:1.75rem}.nav-links a{font-family:var(--fu);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tm);transition:var(--tr);position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:1px;background:var(--rust);transition:var(--tr)}
+.nav-links a:hover,.nav-links a.act{color:var(--rust)}.nav-links a:hover::after,.nav-links a.act::after{left:0;right:0}
+.nav-cta{background:var(--rust)!important;color:var(--sand)!important;padding:.42rem 1.1rem!important;border-radius:2px!important}.nav-cta::after{display:none!important}.nav-cta:hover{background:var(--rust-dk)!important}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}.ham span{display:block;width:22px;height:1.5px;background:var(--rust)}
+.mob-nav{display:none;position:fixed;top:68px;left:0;right:0;background:var(--parchment);border-bottom:1px solid var(--sand-dk);padding:1.5rem 2rem;z-index:999;flex-direction:column;gap:1rem;box-shadow:0 10px 30px var(--sh)}.mob-nav.open{display:flex}
+.mob-nav a{font-family:var(--fu);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tm);padding:.5rem 0;border-bottom:1px solid var(--sand-dk)}
+.pg-banner{background:var(--rust);padding:7.5rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.pg-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.06) 1px,transparent 0);background-size:24px 24px}
+.pg-banner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:var(--warm);clip-path:ellipse(55% 100% at 50% 100%)}
+.pg-banner h1{font-size:clamp(2.2rem,6vw,4rem);color:var(--sand);position:relative;z-index:1}
+.pg-banner p{color:rgba(242,223,200,.72);font-style:italic;margin-top:.65rem;font-size:1rem;position:relative;z-index:1}
+/* BUILDER LAYOUT */
+.builder-layout{display:grid;grid-template-columns:1fr 340px;gap:2.5rem;max-width:1200px;margin:0 auto;padding:3rem 2rem 5rem;align-items:start}
+/* STEPS */
+.step{margin-bottom:2.5rem}
+.step-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;padding-bottom:.75rem;border-bottom:1px solid var(--sand-dk)}
+.step-num{width:32px;height:32px;background:var(--rust);color:var(--sand);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fu);font-size:.72rem;font-weight:500;flex-shrink:0}
+.step-head h3{font-size:1.2rem;color:var(--rust)}
+.step-hint{font-size:.83rem;color:var(--tl);font-style:italic;margin-bottom:1.1rem}
+.opts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.85rem}
+.opt{border:1.5px solid var(--sand-dk);border-radius:4px;padding:.85rem .65rem;text-align:center;cursor:pointer;transition:var(--tr);background:var(--warm)}
+.opt:hover{border-color:var(--gold);background:var(--parchment);transform:translateY(-2px)}
+.opt.sel,.opt.selb{border-color:var(--rust);background:rgba(139,58,42,.06);box-shadow:0 0 0 2px rgba(139,58,42,.12)}
+.opt-emoji{font-size:1.7rem;margin-bottom:.35rem;display:block}
+.opt-name{font-family:var(--fu);font-size:.66rem;color:var(--tm);font-weight:500;text-transform:uppercase;letter-spacing:.07em;display:block;line-height:1.3}
+.opt-price{font-family:var(--fu);font-size:.75rem;color:var(--rust);margin-top:.2rem;display:block}
+/* CART */
+.cart{background:var(--parchment);border:1px solid rgba(196,154,85,.28);border-radius:4px;padding:1.75rem;position:sticky;top:84px}
+.cart h3{font-size:1.3rem;color:var(--rust);margin-bottom:1.1rem;padding-bottom:.7rem;border-bottom:1px solid rgba(196,154,85,.3)}
+.cart-list{min-height:80px;margin-bottom:1rem}
+.cart-empty{font-style:italic;color:var(--tl);font-size:.85rem;text-align:center;padding:1.5rem 0;line-height:1.7}
+.cart-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid rgba(196,154,85,.18);font-size:.84rem}
+.ci-right{display:flex;align-items:center;gap:3px}
+.ci-price{font-family:var(--fu);font-size:.8rem;color:var(--rust)}
+.ci-rm{background:none;border:none;color:var(--tx);cursor:pointer;font-size:.78rem;padding:1px 6px;transition:var(--tr)}
+.ci-rm:hover{color:var(--rust)}
+.cart-total{padding:.9rem 0 1.1rem;border-top:1px solid rgba(196,154,85,.3);display:flex;justify-content:space-between;align-items:center}
+.tot-lbl{font-family:var(--fu);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tm)}
+.tot-val{font-family:var(--fd);font-size:1.5rem;color:var(--rust)}
+.wa-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:.6rem;padding:1rem;background:#25D366;color:#fff;border:none;border-radius:3px;font-family:var(--fu);font-size:.73rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;transition:var(--tr)}
+.wa-btn:hover{background:#1ebe5a;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.3)}
+.wa-note{font-size:.7rem;color:var(--tl);text-align:center;margin-top:.65rem;font-style:italic}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--rust);color:var(--sand);padding:.82rem 1.5rem;border-radius:3px;font-family:var(--fu);font-size:.73rem;z-index:9999;transform:translateY(18px);opacity:0;transition:var(--tr);pointer-events:none;box-shadow:0 10px 28px rgba(139,58,42,.32)}
+.toast.show{transform:translateY(0);opacity:1}
+.footer{background:var(--ink);color:var(--sand);padding:4rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;padding-bottom:2.5rem;border-bottom:1px solid rgba(242,223,200,.1)}
+.f-brand h3{font-family:var(--fd);font-size:1.4rem;color:var(--sand);margin-bottom:.25rem}
+.f-brand h3 em{font-style:italic;color:var(--gold)}
+.f-sub{font-family:var(--fu);font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:block}
+.f-brand p{font-size:.86rem;color:rgba(242,223,200,.55);font-style:italic;max-width:270px;line-height:1.7}
+.f-col h4{font-family:var(--fu);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.f-col ul{display:flex;flex-direction:column;gap:.6rem}.f-col ul li a{font-size:.88rem;color:rgba(242,223,200,.55);transition:var(--tr)}.f-col ul li a:hover{color:var(--gold)}
+.f-bottom{text-align:center;padding-top:1.75rem;font-family:var(--fu);font-size:.68rem;letter-spacing:.1em;color:rgba(242,223,200,.28);max-width:1100px;margin:0 auto}
+@media(max-width:1024px){.builder-layout{grid-template-columns:1fr}.cart{position:static}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.nav-links{display:none}.ham{display:flex}.opts-grid{grid-template-columns:repeat(3,1fr)}.footer-grid{grid-template-columns:1fr;gap:1.8rem}.nav{padding:0 1.25rem}}
+@media(max-width:480px){.opts-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html"><span class="nav-logo-main">Koila Baba <em>Crochet</em></span><span class="nav-logo-sub">Handmade Bouquets</span></a>
+  <ul class="nav-links">
+    <li><a href="flowers.html">Flowers</a></li>
+    <li><a href="builder.html" class="act">Build Bouquet</a></li>
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="occasions.html">Occasions</a></li>
+    <li><a href="builder.html" class="nav-cta">Order Now →</a></li>
+  </ul>
+  <div class="ham" onclick="document.getElementById('mob-nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-nav" id="mob-nav">
+  <a href="flowers.html">Flowers</a><a href="builder.html">Custom Bouquet Builder</a><a href="characters.html">Characters</a><a href="occasions.html">Occasions</a>
+</div>
+
+<div class="pg-banner"><h1>Build Your Bouquet</h1><p>Choose your flowers, wrapping &amp; extras — then order on WhatsApp</p></div>
+
+<div class="builder-layout">
+  <div>
+    <div class="step">
+      <div class="step-head"><span class="step-num">1</span><h3>Choose Your Flowers</h3></div>
+      <p class="step-hint">Select one or more blooms. Mix and match freely!</p>
+      <div class="opts-grid" id="b-flowers"></div>
+    </div>
+    <div class="step">
+      <div class="step-head"><span class="step-num">2</span><h3>Choose a Wrapper / Base</h3></div>
+      <p class="step-hint">Pick one packaging style for your bouquet.</p>
+      <div class="opts-grid" id="b-bases"></div>
+    </div>
+    <div class="step">
+      <div class="step-head"><span class="step-num">3</span><h3>Add Extras</h3></div>
+      <p class="step-hint">Optional add-ons to make it extra special.</p>
+      <div class="opts-grid" id="b-extras"></div>
+    </div>
+  </div>
+  <div class="cart">
+    <h3>Your Bouquet 💐</h3>
+    <div class="cart-list" id="cart-list"><p class="cart-empty">Your bouquet is empty.<br><em>Start selecting blooms above ↑</em></p></div>
+    <div class="cart-total"><span class="tot-lbl">Total</span><span class="tot-val" id="cart-total">₹0</span></div>
+    <button class="wa-btn" onclick="waOrder()">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Order on WhatsApp
+    </button>
+    <p class="wa-note">We'll confirm availability &amp; delivery on WhatsApp.</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="f-brand"><h3>Koila Baba <em>Crochet</em></h3><span class="f-sub">Handmade Bouquets</span><p>Every bouquet handcrafted with premium yarn and packed with love.</p></div>
+    <div class="f-col"><h4>Shop</h4><ul><li><a href="flowers.html">Flowers</a></li><li><a href="builder.html">Custom Builder</a></li><li><a href="characters.html">Characters</a></li><li><a href="occasions.html">Occasions</a></li></ul></div>
+    <div class="f-col"><h4>Contact</h4><ul><li><a href="https://wa.me/918638733586" target="_blank">WhatsApp Us</a></li><li><a href="#">Instagram</a></li></ul></div>
+  </div>
+  <div class="f-bottom"><p>© 2024 Koila Baba Crochet · Handcrafted with love 🌹</p></div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE_KEY='kb_products';
+const DEF={
+  flowers:[
+    {id:'f1',name:'Crimson Rose',price:120,emoji:'🌹',img:''},{id:'f2',name:'Blush Peony',price:140,emoji:'🌸',img:''},{id:'f3',name:'Sunlit Daisy',price:90,emoji:'🌼',img:''},
+    {id:'f4',name:'Lavender Bloom',price:110,emoji:'💜',img:''},{id:'f5',name:'Ivory Magnolia',price:160,emoji:'🤍',img:''},{id:'f6',name:'Wild Sunflower',price:100,emoji:'🌻',img:''},
+    {id:'f7',name:'Blue Hydrangea',price:130,emoji:'💙',img:''},{id:'f8',name:'Dusty Tulip',price:115,emoji:'🌷',img:''},{id:'f9',name:'Garden Rose',price:135,emoji:'🌹',img:''},
+    {id:'f10',name:'Daisy Trio',price:95,emoji:'🌼',img:''},{id:'f11',name:'Pink Peony',price:145,emoji:'🌸',img:''},{id:'f12',name:'Velvet Rose',price:155,emoji:'🌹',img:''}
+  ],
+  bases:[
+    {id:'b1',name:'Kraft Paper',price:50,emoji:'📜'},{id:'b2',name:'Satin Ribbon',price:80,emoji:'🎀'},{id:'b3',name:'Jute Twine',price:60,emoji:'🪢'},
+    {id:'b4',name:'Velvet Wrap',price:100,emoji:'🟥'},{id:'b5',name:'Gift Box',price:120,emoji:'📦'},{id:'b6',name:'Lace Wrap',price:90,emoji:'🤍'}
+  ],
+  extras:[
+    {id:'e1',name:'Gold Bow',price:40,emoji:'🎗️'},{id:'e2',name:'Tissue Paper',price:25,emoji:'📄'},{id:'e3',name:'Greeting Card',price:35,emoji:'💌'},
+    {id:'e4',name:"Baby's Breath",price:55,emoji:'🤍'},{id:'e5',name:'Dried Leaves',price:45,emoji:'🍂'},{id:'e6',name:'Scent Sachet',price:60,emoji:'🌿'}
+  ]
+};
+function getData(){try{const s=localStorage.getItem(STORE_KEY);if(s)return JSON.parse(s);}catch{}return DEF;}
+const BS={flowers:[],base:null,extras:[]};
+let _tt;
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2600);}
+function renderBuilder(){
+  const d=getData();
+  document.getElementById('b-flowers').innerHTML=(d.flowers||DEF.flowers).map(f=>`<div class="opt${BS.flowers.includes(f.id)?' sel':''}" data-id="${f.id}" onclick="togF('${f.id}',this)"><span class="opt-emoji">${f.emoji}</span><span class="opt-name">${f.name}</span><span class="opt-price">₹${f.price}</span></div>`).join('');
+  document.getElementById('b-bases').innerHTML=(d.bases||DEF.bases).map(b=>`<div class="opt${BS.base===b.id?' selb':''}" data-id="${b.id}" onclick="selB('${b.id}',this)"><span class="opt-emoji">${b.emoji}</span><span class="opt-name">${b.name}</span><span class="opt-price">₹${b.price}</span></div>`).join('');
+  document.getElementById('b-extras').innerHTML=(d.extras||DEF.extras).map(e=>`<div class="opt${BS.extras.includes(e.id)?' sel':''}" data-id="${e.id}" onclick="togE('${e.id}',this)"><span class="opt-emoji">${e.emoji}</span><span class="opt-name">${e.name}</span><span class="opt-price">₹${e.price}</span></div>`).join('');
+  updateCart();
+}
+function togF(id,el){
+  const d=getData();const f=(d.flowers||DEF.flowers).find(x=>x.id===id);if(!f)return;
+  if(BS.flowers.includes(id)){BS.flowers=BS.flowers.filter(x=>x!==id);el.classList.remove('sel');showToast('Removed '+f.name);}
+  else{BS.flowers.push(id);el.classList.add('sel');showToast('Added '+f.name+' ✨');}
+  updateCart();
+}
+function selB(id,el){
+  const d=getData();const b=(d.bases||DEF.bases).find(x=>x.id===id);
+  document.querySelectorAll('#b-bases .opt').forEach(i=>i.classList.remove('selb'));
+  BS.base=BS.base===id?null:id;
+  if(BS.base){el.classList.add('selb');if(b)showToast('Wrapper: '+b.name+' 🎀');}
+  updateCart();
+}
+function updateCart(){
+  const d=getData();let items=[],total=0;
+  BS.flowers.forEach(fid=>{const f=(d.flowers||DEF.flowers).find(x=>x.id===fid);if(f){items.push({id:fid,name:f.name,price:f.price,type:'flower'});total+=f.price;}});
+  if(BS.base){const b=(d.bases||DEF.bases).find(x=>x.id===BS.base);if(b){items.push({id:b.id,name:b.name,price:b.price,type:'base'});total+=b.price;}}
+  BS.extras.forEach(eid=>{const e=(d.extras||DEF.extras).find(x=>x.id===eid);if(e){items.push({id:eid,name:e.name,price:e.price,type:'extra'});total+=e.price;}});
+  document.getElementById('cart-list').innerHTML=items.length?items.map(i=>`<div class="cart-row"><span>${i.name}</span><span class="ci-right"><span class="ci-price">₹${i.price}</span><button class="ci-rm" onclick="rmItem('${i.id}','${i.type}')">✕</button></span></div>`).join(''):'<p class="cart-empty">Your bouquet is empty.<br><em>Start selecting blooms above ↑</em></p>';
+  document.getElementById('cart-total').textContent='₹'+total;
+}
+function rmItem(id,type){
+  if(type==='flower'){BS.flowers=BS.flowers.filter(x=>x!==id);document.querySelectorAll(`#b-flowers [data-id="${id}"]`).forEach(el=>el.classList.remove('sel'));}
+  else if(type==='base'){BS.base=null;document.querySelectorAll('#b-bases .opt').forEach(i=>i.classList.remove('selb'));}
+  else{BS.extras=BS.extras.filter(x=>x!==id);document.querySelectorAll(`#b-extras [data-id="${id}"]`).forEach(el=>el.classList.remove('sel'));}
+  updateCart();
+}
+function waOrder(){
+  const d=getData();let lines=[],total=0;
+  BS.flowers.forEach(fid=>{const f=(d.flowers||DEF.flowers).find(x=>x.id===fid);if(f){lines.push('🌸 '+f.name+' — ₹'+f.price);total+=f.price;}});
+  if(BS.base){const b=(d.bases||DEF.bases).find(x=>x.id===BS.base);if(b){lines.push('🎀 Wrapper: '+b.name+' — ₹'+b.price);total+=b.price;}}
+  BS.extras.forEach(eid=>{const e=(d.extras||DEF.extras).find(x=>x.id===eid);if(e){lines.push('✨ Extra: '+e.name+' — ₹'+e.price);total+=e.price;}});
+  if(!lines.length){showToast('Please select at least one flower first!');return;}
+  const msg='Hello Koila Baba Crochet! 🌸\n\nI\'d like to place a custom bouquet order:\n\n*My Selection:*\n'+lines.join('\n')+'\n\n*Total: ₹'+total+'*\n\nPlease confirm availability and delivery details. Thank you! 💐';
+  window.open('https://wa.me/918638733586?text='+encodeURIComponent(msg),'_blank');
+}
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>20));
+document.addEventListener('DOMContentLoaded',renderBuilder);
+</script>
+</body>
+</html>
