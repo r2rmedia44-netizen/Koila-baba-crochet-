@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Shop — Koila Baba Crochet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* =============================================
+   KOILA BABA CROCHET — SHOP PAGE
+   ============================================= */
+:root{
+  --ink:#1C0F0A;--rust:#8B3A2A;--rust-dk:#6A2A1C;
+  --sand:#F2DFC8;--sand-dk:#E5CAAB;--parchment:#FBF5EE;--warm:#FFFDF9;
+  --gold:#C49A55;--tm:#4A2C1E;--tl:#8A6650;--tx:#C2A08A;
+  --sh:rgba(28,15,10,.1);--sh2:rgba(28,15,10,.18);
+  --fd:'DM Serif Display',Georgia,serif;
+  --fb:'Libre Baskerville',Georgia,serif;
+  --fu:'DM Sans',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --tr:all .35s var(--ease);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--warm);color:var(--ink);line-height:1.75;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--sand)}
+::-webkit-scrollbar-thumb{background:var(--rust);border-radius:3px}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:400;line-height:1.15}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(251,245,238,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(196,154,85,.2);transition:var(--tr)}
+.nav.scrolled{box-shadow:0 3px 28px var(--sh)}
+.nav-logo{display:flex;flex-direction:column;line-height:1}
+.nav-logo-main{font-family:var(--fd);font-size:1.2rem;color:var(--rust)}
+.nav-logo-main em{font-style:italic;color:var(--gold)}
+.nav-logo-sub{font-family:var(--fu);font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:1.75rem}
+.nav-links a{font-family:var(--fu);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tm);transition:var(--tr);position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:1px;background:var(--rust);transition:var(--tr)}
+.nav-links a:hover,.nav-links a.act{color:var(--rust)}
+.nav-links a:hover::after,.nav-links a.act::after{left:0;right:0}
+.nav-cta{background:var(--rust)!important;color:var(--sand)!important;padding:.42rem 1.1rem!important;border-radius:2px!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--rust-dk)!important}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.ham span{display:block;width:22px;height:1.5px;background:var(--rust);transition:var(--tr)}
+.mob-nav{display:none;position:fixed;top:68px;left:0;right:0;background:var(--parchment);border-bottom:1px solid var(--sand-dk);padding:1.5rem 2rem;z-index:999;flex-direction:column;gap:1rem;box-shadow:0 10px 30px var(--sh)}
+.mob-nav.open{display:flex}
+.mob-nav a{font-family:var(--fu);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tm);padding:.5rem 0;border-bottom:1px solid var(--sand-dk)}
+
+/* ── PAGE BANNER ── */
+.pg-banner{background:var(--rust);padding:7.5rem 2rem 4.5rem;text-align:center;position:relative;overflow:hidden}
+.pg-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.06) 1px,transparent 0);background-size:24px 24px}
+.pg-banner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:var(--warm);clip-path:ellipse(55% 100% at 50% 100%)}
+.pg-banner h1{font-size:clamp(2.2rem,6vw,4rem);color:var(--sand);position:relative;z-index:1}
+.pg-banner p{color:rgba(242,223,200,.72);font-style:italic;margin-top:.65rem;font-size:1rem;position:relative;z-index:1}
+
+/* ── CATEGORY BUBBLES ── */
+.cat-bubbles-sec{background:var(--warm);padding:3rem 0 1rem}
+.cat-bubbles-title{text-align:center;font-family:var(--fu);font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.75rem}
+.cat-bubbles-wrap{overflow-x:auto;padding:.5rem 2rem 1.25rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.cat-bubbles-wrap::-webkit-scrollbar{display:none}
+.cat-bubbles-row{display:flex;gap:1.5rem;width:max-content;padding:0 .5rem}
+
+/* Each bubble */
+.cat-bubble{display:flex;flex-direction:column;align-items:center;gap:.7rem;cursor:pointer;text-decoration:none;border:none;background:none;padding:0;transition:var(--tr);flex-shrink:0;width:105px}
+.cat-bubble:hover{transform:translateY(-4px)}
+.cat-bubble.active .bubble-ring{border-color:var(--rust);box-shadow:0 0 0 3px rgba(139,58,42,.15)}
+.cat-bubble.active .bubble-label{color:var(--rust);font-weight:600}
+
+.bubble-ring{width:88px;height:88px;border-radius:50%;border:2.5px solid var(--sand-dk);overflow:hidden;background:var(--sand-dk);transition:var(--tr);position:relative;flex-shrink:0}
+.cat-bubble:hover .bubble-ring{border-color:var(--rust);box-shadow:0 6px 20px rgba(139,58,42,.2)}
+.bubble-ring img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s var(--ease)}
+.cat-bubble:hover .bubble-ring img{transform:scale(1.1)}
+.bubble-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem}
+
+.bubble-label{font-family:var(--fu);font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--tm);text-align:center;line-height:1.3;transition:var(--tr)}
+
+/* Scroll dots */
+.bubble-dots{display:flex;gap:.4rem;justify-content:center;margin-top:.75rem;padding-bottom:.5rem}
+.bdot{width:22px;height:3px;border-radius:2px;background:var(--sand-dk);transition:var(--tr);cursor:pointer}
+.bdot.act{background:var(--rust);width:36px}
+
+/* ── DIVIDER ── */
+.divider-line{height:1px;background:linear-gradient(to right,transparent,var(--sand-dk),transparent);margin:0 2rem}
+
+/* ── SHOP MAIN SECTION ── */
+.shop-sec{padding:3rem 2rem 5rem}
+.shop-top{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto 2rem;flex-wrap:wrap;gap:1rem}
+.shop-heading{font-size:clamp(1.6rem,3vw,2.2rem);color:var(--rust)}
+.shop-count{font-family:var(--fu);font-size:.72rem;letter-spacing:.12em;color:var(--tl)}
+
+/* Filter tabs */
+.filter-row{max-width:1200px;margin:0 auto 2.5rem;display:flex;gap:.45rem;flex-wrap:wrap}
+.ftab{font-family:var(--fu);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;padding:.42rem 1.1rem;border:1.5px solid var(--sand-dk);border-radius:20px;background:none;color:var(--tm);cursor:pointer;transition:var(--tr)}
+.ftab:hover,.ftab.act{background:var(--rust);border-color:var(--rust);color:var(--sand)}
+
+/* ── PRODUCT GRID ── */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto}
+
+.prod-card{background:var(--warm);border:1px solid rgba(196,154,85,.18);border-radius:8px;overflow:hidden;transition:var(--tr);position:relative}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 18px 45px var(--sh2);border-color:rgba(196,154,85,.5)}
+
+/* Category tag on card */
+.card-cat-tag{position:absolute;top:.7rem;left:.7rem;z-index:2;font-family:var(--fu);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;background:var(--rust);color:var(--sand);padding:.22rem .65rem;border-radius:20px;font-weight:500}
+
+.prod-thumb{height:200px;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:3.2rem;overflow:hidden;position:relative}
+.prod-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.prod-card:hover .prod-thumb img{transform:scale(1.07)}
+.prod-emoji{position:relative;z-index:0;transition:transform .4s var(--ease)}
+.prod-card:hover .prod-emoji{transform:scale(1.1)}
+
+.prod-body{padding:1rem 1.15rem 1.25rem}
+.prod-body h4{font-family:var(--fd);font-size:1rem;color:var(--ink);margin-bottom:.2rem}
+.prod-desc{font-size:.78rem;color:var(--tl);font-style:italic;margin-bottom:.55rem;line-height:1.45}
+.prod-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem}
+.prod-price{font-family:var(--fu);font-size:.92rem;color:var(--rust);font-weight:600}
+.wa-btn-small{font-family:var(--fu);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:#25D366;color:#fff;border:none;padding:.38rem .8rem;border-radius:20px;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:.3rem}
+.wa-btn-small:hover{background:#1ebe5a;transform:scale(1.05)}
+
+/* No results */
+.no-results{text-align:center;padding:4rem 2rem;color:var(--tl);font-style:italic;grid-column:1/-1;font-size:1.05rem}
+
+/* ── CTA BOX ── */
+.cta-box{text-align:center;margin:3.5rem auto 0;padding:2.5rem 2rem;background:var(--parchment);border:1px solid rgba(196,154,85,.25);border-radius:8px;max-width:520px}
+.cta-box h3{font-size:1.4rem;color:var(--rust);margin-bottom:.5rem}
+.cta-box p{font-style:italic;color:var(--tl);margin-bottom:1.5rem;font-size:.95rem}
+.btn-fill{font-family:var(--fu);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;padding:.9rem 2.2rem;background:var(--rust);color:var(--sand);border:1.5px solid var(--rust);border-radius:2px;cursor:pointer;transition:var(--tr);display:inline-block}
+.btn-fill:hover{background:var(--rust-dk);transform:translateY(-2px);box-shadow:0 10px 28px rgba(139,58,42,.28)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--rust);color:var(--sand);padding:.82rem 1.5rem;border-radius:3px;font-family:var(--fu);font-size:.73rem;z-index:9999;transform:translateY(18px);opacity:0;transition:var(--tr);pointer-events:none;box-shadow:0 10px 28px rgba(139,58,42,.32)}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── FADE IN ── */
+.fi{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.fi.vis{opacity:1;transform:translateY(0)}
+
+/* ── FOOTER ── */
+.footer{background:var(--ink);color:var(--sand);padding:4rem 2rem 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;padding-bottom:2.5rem;border-bottom:1px solid rgba(242,223,200,.1)}
+.f-brand h3{font-family:var(--fd);font-size:1.4rem;color:var(--sand);margin-bottom:.25rem}
+.f-brand h3 em{font-style:italic;color:var(--gold)}
+.f-sub{font-family:var(--fu);font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;display:block}
+.f-brand p{font-size:.86rem;color:rgba(242,223,200,.55);font-style:italic;max-width:270px;line-height:1.7}
+.f-col h4{font-family:var(--fu);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.f-col ul{display:flex;flex-direction:column;gap:.6rem}
+.f-col ul li a{font-size:.88rem;color:rgba(242,223,200,.55);transition:var(--tr)}
+.f-col ul li a:hover{color:var(--gold)}
+.f-bottom{text-align:center;padding-top:1.75rem;font-family:var(--fu);font-size:.68rem;letter-spacing:.1em;color:rgba(242,223,200,.28);max-width:1100px;margin:0 auto}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+  .nav-links{display:none}.ham{display:flex}
+  .prod-grid{grid-template-columns:repeat(2,1fr);gap:1rem}
+  .footer-grid{grid-template-columns:1fr;gap:1.8rem}
+  .nav{padding:0 1.25rem}
+  .shop-top{flex-direction:column;align-items:flex-start}
+  .bubble-ring{width:75px;height:75px}
+  .cat-bubble{width:88px}
+  .bubble-label{font-size:.62rem}
+}
+@media(max-width:480px){
+  .prod-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}
+  .bubble-ring{width:68px;height:68px}
+  .cat-bubble{width:78px;gap:.5rem}
+}
+</style>
+</head>
+<body>
+<!-- ── NAV ── -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">
+    <span class="nav-logo-main">Koila Baba <em>Crochet</em></span>
+    <span class="nav-logo-sub">Handmade Bouquets</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flowers.html" class="act">Shop</a></li>
+    <li><a href="builder.html">Build Bouquet</a></li>
+    <li><a href="characters.html">Characters</a></li>
+    <li><a href="occasions.html">Occasions</a></li>
+    <li><a href="builder.html" class="nav-cta">Order Now →</a></li>
+  </ul>
+  <div class="ham" onclick="document.getElementById('mob-nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mob-nav" id="mob-nav">
+  <a href="flowers.html">Shop</a>
+  <a href="builder.html">Build Bouquet</a>
+  <a href="characters.html">Characters</a>
+  <a href="occasions.html">Occasions</a>
+</div>
+
+<!-- ── PAGE BANNER ── -->
+<div class="pg-banner">
+  <h1>Shop</h1>
+  <p>Handcrafted crochet pieces made with love — browse all categories</p>
+</div>
+
+<!-- ══════════════════════════════════════
+     CATEGORY BUBBLES — horizontal scroll
+══════════════════════════════════════ -->
+<section class="cat-bubbles-sec">
+  <div class="cat-bubbles-title">Browse by Category</div>
+
+  <div class="cat-bubbles-wrap" id="bubbles-wrap">
+    <div class="cat-bubbles-row">
+
+      <!-- ALL -->
+      <button class="cat-bubble active" onclick="filterByCat('all', this)">
+        <div class="bubble-ring" style="background:var(--rust)">
+          <div class="bubble-fallback">🌸</div>
+        </div>
+        <span class="bubble-label">All Items</span>
+      </button>
+
+      <!-- ══════════════════════════════════
+           CATEGORY 1: CHARACTERS
+           📌 IMAGE → LINE 255  (src="koila")
+           Replace koila with your image URL
+      ══════════════════════════════════ -->
+      <button class="cat-bubble" onclick="filterByCat('characters', this)">
+        <div class="bubble-ring">
+          <img src="koila" alt="Characters" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="bubble-fallback" style="display:none">🐰</div>
+        </div>
+        <span class="bubble-label">Characters</span>
+      </button>
+
+      <!-- ══════════════════════════════════
+           CATEGORY 2: BOUQUET
+           📌 IMAGE → LINE 266  (src="koila")
+           Replace koila with your image URL
+      ══════════════════════════════════ -->
+      <button class="cat-bubble" onclick="filterByCat('bouquet', this)">
+        <div class="bubble-ring">
+          <img src="koila" alt="Bouquet" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="bubble-fallback" style="display:none">💐</div>
+        </div>
+        <span class="bubble-label">Bouquet</span>
+      </button>
+
+      <!-- ══════════════════════════════════
+           CATEGORY 3: ACCESSORIES
+           📌 IMAGE → LINE 277  (src="koila")
+           Replace koila with your image URL
+      ══════════════════════════════════ -->
+      <button class="cat-bubble" onclick="filterByCat('accessories', this)">
+        <div class="bubble-ring">
+          <img src="koila" alt="Accessories" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="bubble-fallback" style="display:none">✨</div>
+        </div>
+        <span class="bubble-label">Accessories</span>
+      </button>
+
+      <!-- ══════════════════════════════════
+           CATEGORY 4: BAGS
+           📌 IMAGE → LINE 288  (src="koila")
+           Replace koila with your image URL
+      ══════════════════════════════════ -->
+      <button class="cat-bubble" onclick="filterByCat('bags', this)">
+        <div class="bubble-ring">
+          <img src="koila" alt="Bags" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="bubble-fallback" style="display:none">👜</div>
+        </div>
+        <span class="bubble-label">Bags</span>
+      </button>
+
+      <!-- ══════════════════════════════════
+           CATEGORY 5: CHARMS
+           📌 IMAGE → LINE 299  (src="koila")
+           Replace koila with your image URL
+      ══════════════════════════════════ -->
+      <button class="cat-bubble" onclick="filterByCat('charms', this)">
+        <div class="bubble-ring">
+          <img src="koila" alt="Charms" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="bubble-fallback" style="display:none">🌟</div>
+        </div>
+        <span class="bubble-label">Charms</span>
+      </button>
+
+      <!-- ══════════════════════════════════
+           CATEGORY 6: PIPE CLEANER FLOWERS
+           📌 IMAGE → LINE 310  (src="koila")
+           Replace koila with your image URL
+      ══════════════════════════════════ -->
+      <button class="cat-bubble" onclick="filterByCat('pipecleaner', this)">
+        <div class="bubble-ring">
+          <img src="koila" alt="Pipe Cleaner Flowers" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+          <div class="bubble-fallback" style="display:none">🌺</div>
+        </div>
+        <span class="bubble-label">Pipe Cleaner Flowers</span>
+      </button>
+
+    </div><!-- /cat-bubbles-row -->
+  </div><!-- /cat-bubbles-wrap -->
+
+  <!-- Scroll dots -->
+  <div class="bubble-dots" id="bubble-dots">
+    <div class="bdot act"></div>
+    <div class="bdot"></div>
+    <div class="bdot"></div>
+    <div class="bdot"></div>
+    <div class="bdot"></div>
+    <div class="bdot"></div>
+    <div class="bdot"></div>
+  </div>
+</section>
+
+<div class="divider-line"></div>
+
+<!-- ══════════════════════════════════════
+     SHOP / PRODUCT GRID
+══════════════════════════════════════ -->
+<section class="shop-sec">
+  <div class="shop-top">
+    <h2 class="shop-heading" id="shop-heading">All Items</h2>
+    <span class="shop-count" id="shop-count"></span>
+  </div>
+
+  <!-- Sub-filter tabs (shown based on category) -->
+  <div class="filter-row" id="filter-row" style="display:none">
+    <!-- filled by JS -->
+  </div>
+
+  <div class="prod-grid" id="shop-grid">
+    <!-- Products rendered by JS -->
+  </div>
+
+  <div class="cta-box">
+    <h3>Don't see what you want?</h3>
+    <p>We make fully custom pieces! Message us on WhatsApp and we'll create something just for you.</p>
+    <a href="https://wa.me/918638733586?text=Hi%20Koila%20Baba%20Crochet!%20I'd%20like%20to%20enquire%20about%20a%20custom%20piece." target="_blank" class="btn-fill">Message on WhatsApp</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="f-brand">
+      <h3>Koila Baba <em>Crochet</em></h3>
+      <span class="f-sub">Handmade Bouquets</span>
+      <p>Every piece handcrafted with premium yarn and packed with love. A gift that truly lasts forever.</p>
+    </div>
+    <div class="f-col"><h4>Shop</h4><ul>
+      <li><a href="flowers.html">Shop All</a></li>
+      <li><a href="builder.html">Custom Builder</a></li>
+      <li><a href="characters.html">Characters</a></li>
+      <li><a href="occasions.html">Occasions</a></li>
+    </ul></div>
+    <div class="f-col"><h4>Contact</h4><ul>
+      <li><a href="https://wa.me/918638733586" target="_blank">WhatsApp Us</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Custom Orders</a></li>
+    </ul></div>
+  </div>
+  <div class="f-bottom"><p>© 2024 Koila Baba Crochet · All pieces handcrafted with love 🌹</p></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+/* ── DATA ── */
+const STORE_KEY = 'kb_products';
+
+/* Default products — all 6 categories */
+const SHOP_DATA = {
+  characters: [
+    {id:'c1', name:'Bunny Bouquet', price:380, emoji:'🐰', desc:'Adorable bunny holding a spring flower arrangement', img:''},
+    {id:'c2', name:'Teddy Bear', price:420, emoji:'🧸', desc:'Huggable bear holding a mini bouquet with love', img:''},
+    {id:'c3', name:'Baby Unicorn', price:450, emoji:'🦄', desc:'Magical unicorn cradling rainbow florals', img:''},
+    {id:'c4', name:'Penguin Love', price:390, emoji:'🐧', desc:'Bow-tied penguin with a heart flower bouquet', img:''},
+    {id:'c5', name:'Frog Prince', price:360, emoji:'🐸', desc:'Charming frog nestled with lily pads', img:''},
+    {id:'c6', name:'Cloud Bear', price:410, emoji:'☁️', desc:'Dreamy bear floating on fluffy white clouds', img:''},
+    {id:'c7', name:'Fox with Daisies', price:395, emoji:'🦊', desc:'Sweet little fox holding a daisy chain', img:''},
+    {id:'c8', name:'Kitty Bloom', price:380, emoji:'🐱', desc:'Curious kitten peeking from a floral wreath', img:''},
+  ],
+  bouquet: [
+    {id:'b1', name:'Crimson Rose Bouquet', price:350, emoji:'🌹', desc:'Classic deep-red crochet roses bundled beautifully', img:''},
+    {id:'b2', name:'Blush Peony Bundle', price:420, emoji:'🌸', desc:'Soft romantic peony arrangement, full and lush', img:''},
+    {id:'b3', name:'Wildflower Mix', price:290, emoji:'💐', desc:'A free-spirited mix of handcrafted wildflowers', img:''},
+    {id:'b4', name:'Sunflower Bunch', price:320, emoji:'🌻', desc:'Bright joyful sunflowers tied with a satin bow', img:''},
+    {id:'b5', name:'Pastel Dream', price:380, emoji:'🌷', desc:'Soft pastel blooms in a dreamy arrangement', img:''},
+    {id:'b6', name:'Golden Garden', price:440, emoji:'🌼', desc:'Warm golden blooms with lush green accents', img:''},
+  ],
+  accessories: [
+    {id:'a1', name:'Floral Hair Pin', price:80, emoji:'📌', desc:'Tiny crochet flower on a gold hair pin', img:''},
+    {id:'a2', name:'Bloom Brooch', price:120, emoji:'🪡', desc:'Elegant crochet brooch — perfect for any outfit', img:''},
+    {id:'a3', name:'Daisy Headband', price:150, emoji:'🌼', desc:'Soft elastic headband with crochet daisy accents', img:''},
+    {id:'a4', name:'Rose Scrunchie', price:90, emoji:'🌹', desc:'Velvet scrunchie with a crochet rose detail', img:''},
+    {id:'a5', name:'Floral Keyring', price:110, emoji:'🗝️', desc:'Cute crochet flower charm on a sturdy keyring', img:''},
+  ],
+  bags: [
+    {id:'bg1', name:'Mini Bucket Bag', price:650, emoji:'👜', desc:'Tiny crocheted bucket bag with floral detailing', img:''},
+    {id:'bg2', name:'Tote Flower Bag', price:780, emoji:'🛍️', desc:'Casual crochet tote with an embroidered bloom', img:''},
+    {id:'bg3', name:'Coin Purse', price:220, emoji:'💛', desc:'Small crochet coin purse with a dainty flower clasp', img:''},
+    {id:'bg4', name:'Crossbody Mini', price:890, emoji:'🎒', desc:'Compact crossbody crocheted in boho style', img:''},
+  ],
+  charms: [
+    {id:'ch1', name:'Rose Bag Charm', price:95, emoji:'🌹', desc:'Crochet rose charm for bags, zips or keys', img:''},
+    {id:'ch2', name:'Bunny Charm', price:110, emoji:'🐰', desc:'Tiny amigurumi bunny dangling charm', img:''},
+    {id:'ch3', name:'Daisy Chain Charm', price:85, emoji:'🌼', desc:'Delicate string of crocheted daisy charms', img:''},
+    {id:'ch4', name:'Star Flower Charm', price:100, emoji:'⭐', desc:'Golden star-shaped crochet flower charm', img:''},
+    {id:'ch5', name:'Heart Charm', price:80, emoji:'❤️', desc:'Sweet crocheted heart in a choice of colours', img:''},
+  ],
+  pipecleaner: [
+    {id:'p1', name:'Pipe Cleaner Rose', price:60, emoji:'🌹', desc:'Vibrant handmade rose crafted from pipe cleaners', img:''},
+    {id:'p2', name:'Pipe Cleaner Daisy', price:50, emoji:'🌼', desc:'Cheerful daisy made from colourful pipe cleaners', img:''},
+    {id:'p3', name:'Pipe Cleaner Sunflower', price:65, emoji:'🌻', desc:'Sunny bright sunflower — no wilting ever!', img:''},
+    {id:'p4', name:'Pipe Cleaner Tulip', price:55, emoji:'🌷', desc:'Classic tulip shape in vivid pipe cleaner colours', img:''},
+    {id:'p5', name:'Pipe Cleaner Bouquet', price:180, emoji:'💐', desc:'Mini mixed bouquet of pipe cleaner flowers', img:''},
+    {id:'p6', name:'Pipe Cleaner Lily', price:60, emoji:'🤍', desc:'Elegant white lily crafted from pearl pipe cleaners', img:''},
+  ]
+};
+
+/* Sub-filter tags for flowers category (bouquet) */
+const SUBFILTERS = {
+  bouquet: ['All Bouquets','Roses','Peonies','Mixed','Sunflowers','Pastel'],
+};
+
+/* ── STATE ── */
+let currentCat = 'all';
+let currentSub = 'all';
+
+/* ── GET DATA (merge localStorage with defaults) ── */
+function getShopData() {
+  try {
+    const s = localStorage.getItem(STORE_KEY);
+    if (s) {
+      const stored = JSON.parse(s);
+      // Merge: stored categories override defaults
+      const merged = {...SHOP_DATA};
+      if (stored.characters && stored.characters.length) merged.characters = stored.characters;
+      if (stored.occasions && stored.occasions.length) merged.bouquet = [...merged.bouquet, ...stored.occasions];
+      return merged;
+    }
+  } catch {}
+  return SHOP_DATA;
+}
+
+/* ── FILTER BY CATEGORY BUBBLE ── */
+function filterByCat(cat, btn) {
+  currentCat = cat;
+  currentSub = 'all';
+
+  // Update active bubble
+  document.querySelectorAll('.cat-bubble').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Update heading
+  const labels = {
+    all: 'All Items',
+    characters: 'Characters',
+    bouquet: 'Bouquet',
+    accessories: 'Accessories',
+    bags: 'Bags',
+    charms: 'Charms',
+    pipecleaner: 'Pipe Cleaner Flowers'
+  };
+  document.getElementById('shop-heading').textContent = labels[cat] || 'All Items';
+
+  // Render products
+  renderProducts();
+}
+
+/* ── RENDER PRODUCTS ── */
+function renderProducts() {
+  const data = getShopData();
+  let items = [];
+
+  if (currentCat === 'all') {
+    Object.entries(data).forEach(([cat, products]) => {
+      products.forEach(p => items.push({...p, category: cat}));
+    });
+  } else {
+    items = (data[currentCat] || []).map(p => ({...p, category: currentCat}));
+  }
+
+  // Update count
+  document.getElementById('shop-count').textContent = items.length + ' item' + (items.length !== 1 ? 's' : '');
+
+  const grid = document.getElementById('shop-grid');
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="no-results">No products in this category yet.<br><em>Check back soon or ask us on WhatsApp!</em></div>';
+    return;
+  }
+
+  const catLabels = {
+    characters: 'Character', bouquet: 'Bouquet', accessories: 'Accessory',
+    bags: 'Bag', charms: 'Charm', pipecleaner: 'Pipe Cleaner'
+  };
+
+  grid.innerHTML = items.map((item, i) => {
+    const hasImg = item.img && item.img.trim() !== '';
+    const catLabel = catLabels[item.category] || '';
+    return `
+      <div class="prod-card fi" style="transition-delay:${i * 0.05}s">
+        ${currentCat === 'all' && catLabel ? `<span class="card-cat-tag">${catLabel}</span>` : ''}
+        <div class="prod-thumb">
+          ${hasImg ? `<img src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">` : ''}
+          <span class="prod-emoji" style="display:${hasImg ? 'none' : 'block'}">${item.emoji}</span>
+        </div>
+        <div class="prod-body">
+          <h4>${item.name}</h4>
+          <p class="prod-desc">${item.desc}</p>
+          <div class="prod-footer">
+            <span class="prod-price">₹${item.price}</span>
+            <button class="wa-btn-small" onclick="enquireWA('${item.name.replace(/'/g,"\\'")}', '${item.price}')">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Order
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  initFI();
+}
+
+/* ── WHATSAPP ── */
+function enquireWA(name, price) {
+  const msg = 'Hi Koila Baba Crochet! 🌸\n\nI\'d like to enquire about *' + name + '* (₹' + price + ').\n\nIs it available? Please let me know. Thank you!';
+  window.open('https://wa.me/918638733586?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ── SCROLL DOTS ── */
+function initScrollDots() {
+  const wrap = document.getElementById('bubbles-wrap');
+  const dots = document.querySelectorAll('.bdot');
+  if (!wrap || !dots.length) return;
+  wrap.addEventListener('scroll', () => {
+    const pct = wrap.scrollLeft / (wrap.scrollWidth - wrap.clientWidth || 1);
+    const idx = Math.min(Math.round(pct * (dots.length - 1)), dots.length - 1);
+    dots.forEach((d, i) => d.classList.toggle('act', i === idx));
+  });
+  dots.forEach((d, i) => d.addEventListener('click', () => {
+    const max = wrap.scrollWidth - wrap.clientWidth;
+    wrap.scrollTo({ left: (i / (dots.length - 1)) * max, behavior: 'smooth' });
+  }));
+}
+
+/* ── FADE IN ── */
+function initFI() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.fi:not(.vis)').forEach(el => obs.observe(el));
+}
+
+/* ── TOAST ── */
+let _tt;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(_tt); _tt = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 20));
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts();
+  initScrollDots();
+  setTimeout(initFI, 200);
+});
+</script>
+</body>
+</html>
